@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <Placemark>
+      <name> 1</name>
+      <description> 1</description>
+      <Point>
+        <coordinates>-82.28126079041635,34.839610169111396</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name> 1(b)</name>
+      <description> 1(b)</description>
+      <LineString>
+          <coordinates>
+          -82.28126079041635,34.839610169111396,0
+          -82.28482916341717,34.843222157271924,0
+          -82.31722004446627,34.82315367821544,0
+          -82.31186677746503,34.81773707715471,0
+          -82.28126079041635,34.839610169111396,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name> 2</name>
+      <description> 2</description>
+      <Point>
+        <coordinates>-81.87224967293359,36.09998256746165</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name> 2(b)</name>
+      <description> 2(b)</description>
+      <LineString>
+          <coordinates>
+          -81.87224967293359,36.09998256746165,0
+          -81.84603879257126,36.09481600048545,0
+          -81.84097549249447,36.11096120793967,0
+          -81.86754094025243,36.11619772979275,0
+          -81.87224967293359,36.09998256746165,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name> 3</name>
+      <description> 3</description>
+      <Point>
+        <coordinates>-81.98524692013005,35.779139642169994</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name> 3(b)</name>
+      <description> 3(b)</description>
+      <LineString>
+          <coordinates>
+          -81.98524692013005,35.779139642169994,0
+          -81.96601883101737,35.77564089460928,0
+          -81.95667645361672,35.80807833464618,0
+          -81.97661142521252,35.811705781373746,0
+          -81.98524692013005,35.779139642169994,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name> 4</name>
+      <description> 4</description>
+      <Point>
+        <coordinates>-82.1951555540004,35.115619609022495</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name> 4(b)</name>
+      <description> 4(b)</description>
+      <LineString>
+          <coordinates>
+          -82.1951555540004,35.115619609022495,0
+          -82.19020346282231,35.11522844458481,0
+          -82.18806865887782,35.131792101755806,0
+          -82.19337553859893,35.132211291647046,0
+          -82.1951555540004,35.115619609022495,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name> 5</name>
+      <description> 5</description>
+      <Point>
+        <coordinates>-82.14949278131066,35.42993148969698</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name> 5(b)</name>
+      <description> 5(b)</description>
+      <LineString>
+          <coordinates>
+          -82.14949278131066,35.42993148969698,0
+          -82.137797006502,35.42883826620086,0
+          -82.132779353025,35.46189737552767,0
+          -82.1451889730222,35.46305732959733,0
+          -82.14949278131066,35.42993148969698,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name> 6</name>
+      <description> 6</description>
+      <Point>
+        <coordinates>-82.08230367107357,35.124775004678675</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name> 6(b)</name>
+      <description> 6(b)</description>
+      <LineString>
+          <coordinates>
+          -82.08230367107357,35.124775004678675,0
+          -82.07717462002884,35.12276680487076,0
+          -82.05926249818226,35.15268419028281,0
+          -82.0650343166131,35.154944246830624,0
+          -82.08230367107357,35.124775004678675,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name> 7</name>
+      <description> 7</description>
+      <Point>
+        <coordinates>-82.04224589720071,34.963951171611825</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name> 7(b)</name>
+      <description> 7(b)</description>
+      <LineString>
+          <coordinates>
+          -82.04224589720071,34.963951171611825,0
+          -82.03892685082347,34.95881323563174,0
+          -82.02080121265139,34.96634643919846,0
+          -82.0244512707332,34.971998704512934,0
+          -82.04224589720071,34.963951171611825,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name> 8</name>
+      <description> 8</description>
+      <Point>
+        <coordinates>-82.01615385389927,34.80864502484917</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name> 8(b)</name>
+      <description> 8(b)</description>
+      <LineString>
+          <coordinates>
+          -82.01615385389927,34.80864502484917,0
+          -82.01945954799042,34.80285474463934,0
+          -82.001248041317,34.7955222048442,0
+          -81.9976407330397,34.801838330398766,0
+          -82.01615385389927,34.80864502484917,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name> 9</name>
+      <description> 9</description>
+      <Point>
+        <coordinates>-82.04434348537843,34.799929789026585</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name> 9(b)</name>
+      <description> 9(b)</description>
+      <LineString>
+          <coordinates>
+          -82.04434348537843,34.799929789026585,0
+          -82.04800023133852,34.79495180920367,0
+          -82.0308205571874,34.78610035579966,0
+          -82.0267974045712,34.79157556073412,0
+          -82.04434348537843,34.799929789026585,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>10</name>
+      <description>10</description>
+      <Point>
+        <coordinates>-81.95233912384818,34.704852531051195</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>10(b)</name>
+      <description>10(b)</description>
+      <LineString>
+          <coordinates>
+          -81.95233912384818,34.704852531051195,0
+          -81.9561748155068,34.70104773807839,0
+          -81.94069195610841,34.6903073653421,0
+          -81.93663039998816,34.69433545028284,0
+          -81.95233912384818,34.704852531051195,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>11</name>
+      <description>11</description>
+      <Point>
+        <coordinates>-82.12112063027465,34.700707300967395</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>11(b)</name>
+      <description>11(b)</description>
+      <LineString>
+          <coordinates>
+          -82.12112063027465,34.700707300967395,0
+          -82.12501323426225,34.69931945120866,0
+          -82.1171167648926,34.683981637575506,0
+          -82.11290041080265,34.68548486341325,0
+          -82.12112063027465,34.700707300967395,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>12</name>
+      <description>12</description>
+      <Point>
+        <coordinates>-82.3019213070678,34.591191776300555</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>12(b)</name>
+      <description>12(b)</description>
+      <LineString>
+          <coordinates>
+          -82.3019213070678,34.591191776300555,0
+          -82.30810294028336,34.59240894665766,0
+          -82.31297941677772,34.5762446268282,0
+          -82.30645556183178,34.57496008695781,0
+          -82.3019213070678,34.591191776300555,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>13</name>
+      <description>13</description>
+      <Point>
+        <coordinates>-82.31668412313982,34.75617354598324</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>13(b)</name>
+      <description>13(b)</description>
+      <LineString>
+          <coordinates>
+          -82.31668412313982,34.75617354598324,0
+          -82.32202863949855,34.75901885339692,0
+          -82.34465991919262,34.731381868536616,0
+          -82.33812901868262,34.72790544903541,0
+          -82.31668412313982,34.75617354598324,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>14</name>
+      <description>14</description>
+      <Point>
+        <coordinates>-82.33488606010089,34.81475054418107</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>14(b)</name>
+      <description>14(b)</description>
+      <LineString>
+          <coordinates>
+          -82.33488606010089,34.81475054418107,0
+          -82.33773388563196,34.81808135830645,0
+          -82.3545377761635,34.80875039430556,0
+          -82.35128273023783,34.80494419240237,0
+          -82.33488606010089,34.81475054418107,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>15</name>
+      <description>15</description>
+      <Point>
+        <coordinates>-81.83936146190186,35.04153012731921</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>15(b)</name>
+      <description>15(b)</description>
+      <LineString>
+          <coordinates>
+          -81.83936146190186,35.04153012731921,0
+          -81.83287673750691,35.030536845804356,0
+          -81.77745987760615,35.05146545715296,0
+          -81.78486449253452,35.06403252403607,0
+          -81.83936146190186,35.04153012731921,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>16</name>
+      <description>16</description>
+      <Point>
+        <coordinates>-81.84861695539828,34.530807427381774</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>16(b)</name>
+      <description>16(b)</description>
+      <LineString>
+          <coordinates>
+          -81.84861695539828,34.530807427381774,0
+          -81.8561527626095,34.525544091978155,0
+          -81.84321622634411,34.51274598148254,0
+          -81.83541162446133,34.51819645740809,0
+          -81.84861695539828,34.530807427381774,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+    <Placemark>
+      <name>17</name>
+      <description>17</description>
+      <Point>
+        <coordinates>-82.04617985395647,34.5459184648628</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>17(b)</name>
+      <description>17(b)</description>
+      <LineString>
+          <coordinates>
+          -82.04617985395647,34.5459184648628,0
+          -82.0605860740917,34.54114699593803,0
+          -82.05337121245493,34.52558815717428,0
+          -82.03831251677747,34.530575582205735,0
+          -82.04617985395647,34.5459184648628,0
+          </coordinates>
+      </LineString>
+    </Placemark>
+  </Document>
+</kml>

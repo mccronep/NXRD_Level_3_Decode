@@ -1,0 +1,52 @@
+                        STORM TOTAL ACCUMULATION                                
+                                                                                
+RADAR ID: KCLE     DATE: 12/24/23     TIME: 00:07                               
+VOLUME COVERAGE PATTERN: 215            MODE: Precip                            
+GAGE BIAS APPLIED                        -    NO                                
+     BIAS  ESTIMATE                      -      N/A                             
+     EFFECTIVE # G/R PAIRS               -      N/A                             
+     MEMORY SPAN (HOURS)                 -      N/A                             
+     DATE/TIME LAST BIAS UPDATE          -      N/A                             
+HYBRID RATE PERCENT BINS FILLED          -    99.64                             
+            HIGHEST ELEV. USED (DEG)     -     5.1                              
+            TOTAL PRECIP AREA (KM**2)    -   163.7                              
+AWIPS SITE ID OF MOST RECENT BIAS SOURCE -   N/A                                
+R(A) STATUS                              - ON                                   
+R(A) MODE                                - DEFAULT (0.015)                      
+R(A) ALPHA                               - 0.015 (INSUFFICIENT DATA)            
+NUMBER OF DATA BINS TO COMPUTE ALPHA     -        0                             
+
+DEFAULT MELTING LAYER DEPTH   0.5 KM     MAX KDP BEAM BLOCKAGE        70 %      
+MELTING LAYER SOURCE     MODEL_ENHANCED  MIN KDP USAGE RATE           10.0 MM/HR
+KDP COEFFICIENT              44          WET SNOW R(Z) MULTIPLIER      0.6      
+KDP EXPONENT                  0.822      GRAUPEL R(Z) MULTIPLIER       0.8      
+KDP COEFF FOR RAIN/HAIL      27          RAIN/HAIL R(Z) MULTIPLIER     0.8      
+Z-R COEFFICIENT             300          DRY SNOW BELOW ML TOP MULT.   1.0      
+Z-R EXPONENT                  1.4        DRY SNOW R(Z) MULTIPLIER      1.6      
+RAIN RATE RELATIONSHIP TYPE CONTINENTAL  CRYSTALS R(Z) MULTIPLIER      1.6      
+ZDR/Z COEFFICIENT             0.0142     HVY RAIN REFL THRESH R(KDP)  45.0 dBZ  
+ZDR/Z EXPONENT FOR Z          0.770      % RATE GRID FILLED THRESH    99.9 %    
+ZDR/Z EXPONENT FOR ZDR       -1.67       PAIF PRECIP RATE THRESH       0.5 MM/HR
+MIN CORREL COEFF FOR PRECIP   0.8000     PAIF PRECIP AREA THRESH      80   KM**2
+MIN CORREL COEFF FOR KDP      0.9000     USE LOW SUPPLEMENTAL SCAN   YES        
+MAX REFLECTIVITY             53.0 dBZ    MAX VOLUMES PER HOUR         30        
+MAX RATE                    200.00 MM/HR NUMBER OF EXCLUSION ZONES     0        
+
+THRESHOLD ELAPSED TIME TO RESTART      60 MINUTES                               
+MAXIMUM TIME FOR INTERPOLATION         30 MINUTES                               
+MAXIMUM HOURLY ACCUMULATION VALUE     800 MM                                    
+TIME BIAS ESTIMATION                   50 MINUTES                               
+THRESHOLD NUMBER OF GAGE-RADAR PAIRS   10                                       
+RESET BIAS VALUE                        1.0                                     
+LONGEST ALLOWABLE LAG                 168 HOURS                                 
+BIAS FLAG APPLIED?                     NO                                       
+RPG ESTIMATED ISDP                     60 DEG                                   
+ISDP APPLIED TO DATA?                  NO                                       
+DATE OF ISDP ESTIMATE:           12/23/23                                       
+TIME OF ISDP ESTIMATE:              22:47                                       
+METSIGNAL PROCESSING:                  ON                                       
+METSIGNAL THRESHOLD:                   80.0                                     
+CAPPI PROCESSING:                      ON                                       
+CAPPI THRESHOLD:                       11.0 dBZ                                 
+CAPPI HEIGHT:                           3.0 KM                                  
+

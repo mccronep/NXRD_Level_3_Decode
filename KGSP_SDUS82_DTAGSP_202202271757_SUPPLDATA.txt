@@ -1,0 +1,77 @@
+                        STORM TOTAL ACCUMULATION                                
+                                                                                
+RADAR ID: KGSP     DATE: 02/27/22     TIME: 17:57                               
+VOLUME COVERAGE PATTERN: 215            MODE: Precip                            
+GAGE BIAS APPLIED                        -    NO                                
+     BIAS  ESTIMATE                      -      N/A                             
+     EFFECTIVE # G/R PAIRS               -      N/A                             
+     MEMORY SPAN (HOURS)                 -      N/A                             
+     DATE/TIME LAST BIAS UPDATE          -      N/A                             
+HYBRID RATE PERCENT BINS FILLED          -    99.53                             
+            HIGHEST ELEV. USED (DEG)     -     6.4                              
+            TOTAL PRECIP AREA (KM**2)    - 27698.3                              
+AWIPS SITE ID OF MOST RECENT BIAS SOURCE -   N/A                                
+R(A) STATUS                              - ON                                   
+R(A) MODE                                - STRATIFORM (0.035)                   
+R(A) ALPHA                               - 0.035                                
+NUMBER OF DATA BINS TO COMPUTE ALPHA     -    25145                             
+
+DEFAULT MELTING LAYER DEPTH   0.5 KM     MAX KDP BEAM BLOCKAGE        70 %      
+MELTING LAYER SOURCE     MODEL_ENHANCED  MIN KDP USAGE RATE           10.0 MM/HR
+KDP COEFFICIENT              44          WET SNOW R(Z) MULTIPLIER      0.6      
+KDP EXPONENT                  0.822      GRAUPEL R(Z) MULTIPLIER       0.8      
+KDP COEFF FOR RAIN/HAIL      27          RAIN/HAIL R(Z) MULTIPLIER     0.8      
+Z-R COEFFICIENT             300          DRY SNOW BELOW ML TOP MULT.   1.0      
+Z-R EXPONENT                  1.4        DRY SNOW R(Z) MULTIPLIER      2.8      
+RAIN RATE RELATIONSHIP TYPE CONTINENTAL  CRYSTALS R(Z) MULTIPLIER      2.8      
+ZDR/Z COEFFICIENT             0.0142     HVY RAIN REFL THRESH R(KDP)  45.0 dBZ  
+ZDR/Z EXPONENT FOR Z          0.770      % RATE GRID FILLED THRESH    99.9 %    
+ZDR/Z EXPONENT FOR ZDR       -1.67       PAIF PRECIP RATE THRESH       0.5 MM/HR
+MIN CORREL COEFF FOR PRECIP   0.8000     PAIF PRECIP AREA THRESH     200   KM**2
+MIN CORREL COEFF FOR KDP      0.9000     USE LOW SUPPLEMENTAL SCAN   YES        
+MAX REFLECTIVITY             53.0 dBZ    MAX VOLUMES PER HOUR         30        
+MAX RATE                    200.00 MM/HR NUMBER OF EXCLUSION ZONES    17        
+
+THRESHOLD ELAPSED TIME TO RESTART      60 MINUTES                               
+MAXIMUM TIME FOR INTERPOLATION         30 MINUTES                               
+MAXIMUM HOURLY ACCUMULATION VALUE     800 MM                                    
+TIME BIAS ESTIMATION                   50 MINUTES                               
+THRESHOLD NUMBER OF GAGE-RADAR PAIRS   10                                       
+RESET BIAS VALUE                        1.0                                     
+LONGEST ALLOWABLE LAG                 168 HOURS                                 
+BIAS FLAG APPLIED?                     NO                                       
+RPG ESTIMATED ISDP                     58 DEG                                   
+ISDP APPLIED TO DATA?                  NO                                       
+DATE OF ISDP ESTIMATE:           02/27/22                                       
+TIME OF ISDP ESTIMATE:              03:51                                       
+METSIGNAL PROCESSING:                  ON                                       
+METSIGNAL THRESHOLD:                   80.0                                     
+CAPPI PROCESSING:                      ON                                       
+CAPPI THRESHOLD:                       11.0 dBZ                                 
+CAPPI HEIGHT:                           3.0 KM                                  
+
+                            DUAL POL EXCLUSION ZONES                            
+                                                                                
+             ZONE BEG AZM END AZM BEG RNG (NM) END RNG (NM) ELEV ANG            
+               1  229.0   233.0        4            6          1.0              
+               2   13.0    14.0       75           76          1.0              
+               3   12.0    13.0       55           57          1.0              
+               4    5.0     6.0       14           15          1.0              
+               5    6.0     7.0       33           35          1.0              
+               6   25.0    26.0       16           18          1.0              
+               7   61.0    63.0       10           11          1.0              
+               8  114.0   116.0       11           12          1.0              
+               9  120.0   122.0       10           11          1.0              
+              10  129.0   130.0       17           18          1.0              
+              11  156.0   157.0       12           13          1.0              
+              12  193.0   194.0       18           19          1.0              
+              13  212.0   214.0        9           11          1.0              
+              14  234.0   236.0        7            8          1.0              
+
+                            DUAL POL EXCLUSION ZONES                            
+                                                                                
+             ZONE BEG AZM END AZM BEG RNG (NM) END RNG (NM) ELEV ANG            
+              15   63.0    65.0       21           24          1.0              
+              16  139.0   140.0       28           29          1.0              
+              17  157.0   159.0       22           23          1.0              
+
