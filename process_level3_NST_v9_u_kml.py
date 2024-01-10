@@ -10,8 +10,8 @@
 #
 # NAME:
 # :::::::::::::::::::::::::::::::::::::::::::::::
-# process_level3_NCR_v6_kml.py
-# :::::::::::::::::::::::::::::::::::::::::::::::
+# process_level3_NST_v9_t_kml.py
+#:::::::::::::::::::::::::::::::::::::::::::::::
 #
 #  PROGRAM OVERVIEW:
 #       (0) The PYTHON CODE reads WSR88D L3 information from a file. 
@@ -47,26 +47,26 @@
 try:
     import datetime
     import time
-    #
-    import os
-    import sys
     import csv
+    import os
+    import math
+    #
+    from math import asin, atan2, cos, degrees, radians, sin
+    
+    import sys
     import metpy
-    import pandas as pd
     import cartopy.crs as ccrs
+    import cartopy.feature as cfeature
     import matplotlib.gridspec as gridspec
     import matplotlib.pyplot as plt
     import numpy as np
-    import csv
     #
     from metpy.calc import azimuth_range_to_lat_lon
     from metpy.io import Level3File
     from metpy.plots import add_metpy_logo, add_timestamp, colortables, USCOUNTIES
-    from metpy.units import units
-    from math import asin, atan2, cos, degrees, radians, sin
-    #
-    import cartopy.feature as cfeature
-    #
+    from metpy.units import units  
+    import geopy
+    from geopy.distance import VincentyDistance
     print('Was able to successfully Load Modules')
     #
 except:
@@ -102,7 +102,7 @@ dadashes='-----------------------------------------------------'
 DAEQUALS='==--==--==--==--==--==--==--==--==--==--==--==--==--'
 #
 DADASHES='----------------------------------------------------'
-PRTERR="--ERROR--ERROR--ERROR--ERROR--ERROR--ERROR--ERROR--"
+
 PRTOK='--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--'
 
 print('Input filename is:'+str(inputfile))
@@ -382,6 +382,28 @@ def Print_Current_Time(now):
     #### END OF Print_Current_Time FUNCTION
     #-----#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----
 
+def get_point_at_distance(lat1, lon1, d, bearing, R=6371):
+    """
+    lat: initial latitude, in degrees
+    lon: initial longitude, in degrees
+    d: target distance from initial
+    bearing: (true) heading in degrees
+    R: optional radius of sphere, defaults to mean radius of earth
+
+    Returns new lat/lon coordinate {d}km from initial, in degrees
+    """
+    lat1 = radians(lat1)
+    lon1 = radians(lon1)
+    a = radians(bearing)
+    lat2 = asin(sin(lat1) * cos(d/R) + cos(lat1) * sin(d/R) * cos(a))
+    lon2 = lon1 + atan2(
+        sin(a) * sin(d/R) * cos(lat1),
+        cos(d/R) - sin(lat1) * sin(lat2)
+    )
+    return (degrees(lat2), degrees(lon2),)
+
+
+
 #-----#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----
 #determine_date_since_1970
 #-----#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----
@@ -451,11 +473,6 @@ def printok():
     print(PRTOK)
     #END OF Function
 
-def printerr():
-    #
-    print(PRTERR)
-    #END OF Function
-
 def printds():
     #
     print('--------------------------------------------')
@@ -497,38 +514,6 @@ def decode_twohalfwords(halfwrds):
     #### END OF decode_halfword FUNCTION
     #-----#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----
 
-#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----
-####### Begin get_point_at_distance
-#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----
-#
-#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----
-def get_point_at_distance(lat1, lon1, d, bearing, R=6371):
-    """
-    lat: initial latitude, in degrees
-    lon: initial longitude, in degrees
-    d: target distance from initial
-    bearing: (true) heading in degrees
-    R: optional radius of sphere, defaults to mean radius of earth
-
-    Returns new lat/lon coordinate {d}km from initial, in degrees
-    """
-    lat1 = radians(lat1)
-    lon1 = radians(lon1)
-    a = radians(bearing)
-    lat2 = asin(sin(lat1) * cos(d/R) + cos(lat1) * sin(d/R) * cos(a))
-    lon2 = lon1 + atan2(
-        sin(a) * sin(d/R) * cos(lat1),
-        cos(d/R) - sin(lat1) * sin(lat2)
-    )
-    return (degrees(lat2), degrees(lon2),)
-    #-----#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----
-    #### END OF get_point_at_distance FUNCTION
-    #-----#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----
-#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----#-----
-
-
-
-
 ########
 # MAIN part of program
 ########
@@ -537,10 +522,10 @@ now=0
 Print_Current_Time(now)
 
 datadirectry='/home/pmccrone/test/'
-file='KFDR_SDUS84_NCRFDR_202205050336.txt'
-l3file='KFDR_SDUS84_NCRFDR_202205050336'
-pdbfile='KFDR_SDUS84_NCRFDR_202205050336.pdb.ascii'
-odfile='KFDR_SDUS84_NCRFDR_202205050336.odout.ascii'
+file='KFDR_SDUS84_NSTFDR_202205050336.txt'
+l3file='KFDR_SDUS84_NSTFDR_202205050336'
+pdbfile='KFDR_SDUS84_NSTFDR_202205050336.pdb.ascii'
+odfile='KFDR_SDUS84_NSTFDR_202205050336.odout.ascii'
 
 thefile=datadirectry+file
 
@@ -552,6 +537,7 @@ if useinputfile == 1:
     pdbfile=inputfile+'.pdb.ascii'
     thefile=inputfile+'txt'
     odfile=inputfile+'.odout.ascii'
+
 
 if os.path.isfile(thefile):
     os.system('rm -rf '+thefile)
@@ -581,7 +567,7 @@ if useinputfile ==0:
     # making the PRODUCT DESCRIPTION BLOCK
     os.system('xxd -s 48 -l 120 -c 30 '+datadirectry+l3file+' >> '+datadirectry+pdbfile)
     # making the tabular data for NST only
-    os.system('od -S 0 '+datadirectry+l3file+' | grep / >> '+datadirectry+odfile)
+    os.system('od -S 0 '+datadirectry+l3file+' | grep P >> '+datadirectry+odfile)
     printok()
 else:
     print('-------')
@@ -590,7 +576,8 @@ else:
     # making the PRODUCT DESCRIPTION BLOCK
     os.system('xxd -s 48 -l 120 -c 30 '+l3file+' >> '+pdbfile  )
     # making the tabular data for NST only
-    os.system('od -S 0 '+l3file+' | grep / >> '+odfile   )
+    os.system('od -S 0 '+l3file+' | grep P >> '+odfile   )
+
 
 # lines contains the entire file.
 print("This is the entire file")
@@ -615,6 +602,7 @@ mypdbfile=datadirectry+pdbfile
 if useinputfile ==1:
     mypdbfile=pdbfile
 
+
 with open(mypdbfile) as ff:
     plines=  ff.readlines()
 
@@ -624,6 +612,7 @@ ff.close()
 for pli in plines:
     print(pli)
 
+
 # Now we will get the ascii data (this is for NST only)
 printds()
 print("This is for the ascii tabular data for NST only")
@@ -631,6 +620,7 @@ print("This is for the ascii tabular data for NST only")
 myodfile=datadirectry+odfile
 if useinputfile ==1:
     myodfile=odfile
+
 
 with open(myodfile) as ff2:
     olines=  ff2.readlines()
@@ -640,6 +630,8 @@ ff2.close()
 
 for oli in olines:
     print(oli)
+
+
 
 ##### BEGIN DECODING
 
@@ -664,15 +656,6 @@ print('The ICAO ID Of the originator:       '+ORIG_ICAO_ID_hdr)
 print('The three letter product id is:      '+PRODUCT_ID_hdr)
 print('The three letter radar id:           '+RADAR_3_LETTER)
 
-if "NCR" in PRODUCT_ID_hdr:
-    printok()
-    print('This is an NCR product. This code will only decode NCR data.')
-    printok()
-else:
-    printerr()
-    print('This is NOT an NCR product. This code will only decode NCR data.')
-    printerr()
-
 # Print plain description of Product ID
 if PRODUCT_ID_hdr in prod_sbn:
     print('The Product ID is valid.')
@@ -683,6 +666,7 @@ if PRODUCT_ID_hdr in prod_sbn:
     print(description_product)
 else:
     print('The product id is invalid.')
+
 
 if RADAR_3_LETTER in call_signs_3list:
     fourletter=dict_icao_3ltr[RADAR_3_LETTER]
@@ -695,12 +679,14 @@ else:
     printds()
     print('The 3 letter radar icao is invalid')
 
+
 ###
 ### DECODE MESSAGE HEADER
 printbn()
 printds()
 print("Print the MESSAGE HEADER INFO")
 printds()
+
 
 MSG_HEADER_RAW=lines[1]
 
@@ -1032,6 +1018,7 @@ real_prod_dep_param_8=decode_halfword(PRODUCT_DEP_PARAMETER_8)
 print('PRODUCT_DEP_PARAMETER_8=             '+PRODUCT_DEP_PARAMETER_8)
 print('real_prod_dep_param_8=               '+str(real_prod_dep_param_8))
 
+
 #
 # HALFWORDS 52 and 53
 #
@@ -1041,6 +1028,8 @@ Uncompress_Data_size=decode_twohalfwords(PRODUCT_DEP_PARAMETER9n10)
 
 print('PRODUCT_DEP_PARAMETER9n10=           '+PRODUCT_DEP_PARAMETER9n10)
 print('Uncompressed Data size   =           '+str(Uncompress_Data_size))
+
+
 
 #
 # HALFWORD 54
@@ -1055,13 +1044,13 @@ print('Version_decimal=                     '+str(Version_decimal))
 
 #
 # HALFWORDS 55-56
-
-
+#
 OFFSET_2_SYM_BLOCK=PDBLINE3[10:19]
 real_offset_2_sym_block=decode_twohalfwords(OFFSET_2_SYM_BLOCK)
 
 print('OFFSET_2_SYM_BLOCK=                  '+OFFSET_2_SYM_BLOCK)
 print('real_offset_2_sym_block=             '+str(real_offset_2_sym_block))
+
 
 #
 # HALFWORDS 57-58
@@ -1071,6 +1060,7 @@ real_offset_2_grp_block=decode_twohalfwords(OFFSET_2_GRP_BLOCK)
 
 print('OFFSET_2_GRP_BLOCK=                  '+OFFSET_2_GRP_BLOCK)
 print('real_offset_2_grp_block=             '+str(real_offset_2_grp_block))
+
 
 #
 # HALFWORDS 59-60
@@ -1082,64 +1072,71 @@ real_offset_2_alp_block=decode_twohalfwords(OFFSET_2_ALP_BLOCK)
 print('OFFSET_2_ALP_BLOCK=                  '+OFFSET_2_ALP_BLOCK)
 print('real_offset_2_alp_block=             '+str(real_offset_2_alp_block))
 
-#Process the tabular data from the Tabular alphanueric block. I grabbed this using the od command and it is the olines list.
+
+#Process the tabular data from the Tabular alphanueric block. I grabbed this using the od command and it is the oli list.
 #
 iii=0            # This is the index to keep track of where on the list
 start=[]         # This is the beginning 
 endofblock=0     # The end of the block
 averageline=0
-dataliststm=[]
-parnlist=[]
-#
-start_txt='STM ID'
-
-end_txt=')'
+degnm=[]
+start_txt='STORM POSITION/FORECAST'
+end_txt='STORM CELL TRACKING/FORECAST ADAPTATION DATA'
+averge='AVG SPEED'
+deg_str='(DEG/NM)'
 for oli in olines:
     if start_txt in oli:
         start.append(iii)
-    #   
+    if averge in oli:
+        averageline=iii
+    if deg_str in oli:
+        degnm.append(iii)
     if end_txt in oli:
-        parnlist.append(iii)
-    #
-    if not(start_txt in oli) and not(end_txt in oli):
-        dataliststm.append(iii)
+        endofblock=iii
+
     #
     iii=iii+1
     #
 printds()
 
+print('The line that contains: '+str(averge) )
+print(averageline) 
 print('Here are the lines that contain :'+str(start_txt))
 print(start)
 
-print('Here are the line numbers that contain :'+str(end_txt))
-print(parnlist)
+print('Here are the lines that contain :'+str(deg_str))
+print(degnm)
 
-print('Here are the lines that contain storm data:')
-print(dataliststm)
+
+print('Here is the line number that says :'+str(end_txt))
+print(str(endofblock))
+
 
 
 printds()
 print('These are the lines we identifed:')
+print('Average')
+print("Line :"+str(averageline)+": "+olines[averageline])
 print('STORM Positions')
-for item in dataliststm:
+for item in start:
     print('Line :'+str(item)+':  '+olines[item])
-print("Lines that contain "+end_txt)
-for item in parnlist:
+print("Lines that contain "+deg_str)
+for item in degnm:
     print('Line :'+str(item)+':  '+olines[item])
 
+print('Line for ADAPTATION area ')
+print('Line :'+str(endofblock)+':  '+olines[endofblock])
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 #
-# the following lists contian the line numbers that hold the data: 
-# dataliststm and parnlist.
-#
-# The dataliststm contains normal data.
-# The parnlist is normal data that adds a -)- in front.
-#
+# 
+
+# Now, take the average line and make that the first element of the start list.
+# We are going to start at the first start list item then go to the next one.
 # We will decode the storm info along those lines.
-#
-#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-#
 
+start[0]=averageline
+
+start.append(endofblock)
 
 print('Positions of Cell data')
 for item in start:
@@ -1147,22 +1144,19 @@ for item in start:
 
 
 # Now decode the storm cells between each set of start elements
-# We start at olines[start[0]] and go to olines[start[final],
-# then we go to olines[parnlist[0] to olines[parnlist[final]]
+# We start at olines[start[0]] and go to olines[start[1],
+# then we go to olines[start[1] to olines[start[2]]
 index=1
 stormdatalines=[]
 print('Here we display only the storm data')
 printds()
-for x in dataliststm:
-    print(olines[x])
-    myitem=olines[x]
-    stormdatalines.append(myitem[12:])
+for x in degnm:
+    for item in range(x+2,start[index]):
+        print(olines[item])
+        stormdatalines.append(olines[item])
+        #
+    index+=1    
     #
-for x in parnlist:
-    print(olines[x])
-    myitem=olines[x]
-    stormdatalines.append(myitem[13:])
-    index+=1
 printds()
 print('stormdatalines')
 printds()
@@ -1170,27 +1164,13 @@ print(stormdatalines)
 
 #    print(olines
 
-#0020260  STM ID  AZ/RAN TVS  MDA  POSH/POH/MX SIZE VIL DBZM  HT  TOP  FCST MVMT 
-#0020402     Q2  237/ 37 TVS     7   70/100/ 1.50    66  64  8.4  37.4  240/ 16  
-#0020524     Q3  304/ 53 TVS     6   80/100/ 1.75    67  65 12.4  38.5  271/ 29  
-#0020646     W7  212/ 86 TVS     6   50/100/ 1.00    56  58 10.3  39.6  242/ 25  
-#0020767 )    Q7   63/121 TVS  NONE   80/100/ 1.75    66  62 22.4  42.5  238/ 31  
-#0027726  STM ID  AZ/RAN TVS  MDA  POSH/POH/MX SIZE VIL DBZM  HT  TOP  FCST MVMT 
-#0030050     B9  315/ 79 NONE    3    0/  0/ 0.00    17  53  8.9  20.3  222/ 35  
-#0030172     T8  292/ 32 NONE NONE    0/  0/ 0.00    14  56  7.4  23.9  246/ 39  
-#0030314     U9   29/144 NONE NONE     UNKNOWN       12  46 23.1  29.4  222/ 39  
-#0030435 )    J9  277/ 68 NONE    1    0/  0/ 0.00    12  52  7.2  25.5  235/ 31  
-#0025602  STM ID  AZ/RAN TVS  MDA  POSH/POH/MX SIZE VIL DBZM  HT  TOP  FCST MVMT 
-#0025724     H6  359/113 NONE    3    0/ 80/ 0.50    25  53 15.6  26.9  246/ 29  
-#0026046     V2  332/ 83 NONE    3    0/ 70/ 0.50    29  55  9.6  27.4  249/ 25  
-#0026170     P0  271/ 48 NONE    2    0/ 70/<0.50     6  47 22.1  27.4    NEW    
-#0026311 )    M7  352/107 NONE    3    0/ 10/<0.50    17  51 14.3  28.4  239/ 23  
-#...............................................................................
+#0023323 P STORM    CURRENT POSITION              FORECAST POSITIONS               ERROR
+#0023445 P  ID     AZRAN     MOVEMENT    15 MIN    30 MIN    45 MIN    60 MIN    FCST/MEAN
+#0023567 P        (DEG/NM)  (DEG/KTS)   (DEG/NM)  (DEG/NM)  (DEG/NM)  (DEG/NM)     (NM)
 #000000000011111111112222222222333333333344444444445555555555666666666677777777778888888888
 #012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
-#...............................................................................
-#0026170     P0  271/ 48 NONE    2    0/ 70/<0.50     6  47 22.1  27.4    NEW    
-#0026311 )    M7  352/107 NONE    3    0/ 10/<0.50    17  51 14.3  28.4  239/ 23  
+#0024033 P  T2      62/154   229/ 18      62/158    61/163    61/167    61/172    0.9/ 0.8
+
 
 print("Storm ID, Current AZRAN, Movement, 15min pos, 30 min pos, 45 min pos, 60 min pos")
 
@@ -1201,105 +1181,87 @@ curr_range=[]
 
 movement=[]
 mov_az=[]
-mov_spd=[]
+mov_rng=[]
 
-poshpohmx=[]
+pos15=[]
+pos15_az=[]
+pos15_rng=[]
 
-posh=[]
+pos30=[]
+pos30_az=[]
+pos30_rng=[]
 
-poh=[]
-
-mxsize=[]
-
-tvs=[]
-
-mda=[]
-
-vil=[]
-
-dbzm=[]
-
-ht=[]
-
-top=[]
-
-paren=')'
-
-none_data='NONE'
-unkown_data='UNKNOWN'
-new_data="NEW"
-#...............................................................................
-#000000000011111111112222222222333333333344444444445555555555666666666677777777778888888888
-#012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
-#...............................................................................
-#P0  271/ 48 NONE    2    0/ 70/<0.50     6  47 22.1  27.4    NEW
-#T8  292/ 32 NONE NONE    0/  0/ 0.00    14  56  7.4  23.9  246/ 39
-#ID  AZ/RAN TVS  MDA  POSH/POH/MX SIZE VIL DBZM  HT  TOP  FCST MVMT
+pos45=[]
+pos45_az=[]
+pos45_rng=[]
 
 
-#
-# We are decoding the various parts of the data- we get the storm id, the current azumith and range, and the TVS, MDS and Hail probabilites. All stored in lists. 
-#
+pos60=[]
+pos60_az=[]
+pos60_rng=[]
+
+
+no_data='NO DATA'
+new_data='NEW'
 
 for data in stormdatalines:
-    storm_id_str      = data[0:2]
+    storm_id_str      = data[11:13]
     storm_id.append(storm_id_str)
     #
-    current_azran_str = data[4:11]
+    #
+    current_azran_str = data[18:25]
     curr_azran.append(current_azran_str)
     splt_c_axr=current_azran_str.split('/')
     curr_az.append(splt_c_axr[0])
     curr_range.append(splt_c_axr[1])
     #
-    movement_str =      data[59:66]
+    #
+    movement_str =      data[27:35]
     if new_data in movement_str:
         movement_str=' 999/999'
     movement.append(movement_str)
     splt_move=movement_str.split('/')
     if new_data in movement_str:
         mov_az.append(int('999'))
-        mov_spd.append(int('999'))
+        mov_rng.append(int('999'))
     else:
         mov_az.append(int(splt_move[0]))
-        mov_spd.append(int(splt_move[1]))
+        mov_rng.append(int(splt_move[1]))
     #
-    tvs_str =      data[12:16]
-    #if none_data in pos15min_str:
-    if none_data in tvs_str:
-        tvs_str='999'
-    tvs.append(tvs_str)
+    pos15min_str =      data[40:47]
+    if no_data in pos15min_str:
+        pos15min_str='999/999'
+    pos15.append(pos15min_str)
+    splt_pos15=pos15min_str.split('/')
+    pos15_az.append(int(splt_pos15[0]))
+    pos15_rng.append(int(splt_pos15[1]))
     #
-    mda_str =      data[17:21]
-    if none_data in mda_str:
-        mda_str='999'
-    mda.append(mda_str)
+    pos30min_str =      data[50:57]
+    if no_data in pos30min_str:
+        pos30min_str='999/999'
+    pos30.append(pos30min_str)
+    splt_pos30=pos30min_str.split('/')
+    pos30_az.append(int(splt_pos30[0]))
+    pos30_rng.append(int(splt_pos30[1]))
     #
-    poshpohmx_str =      data[21:36]
-    if unkown_data in poshpohmx_str:
-        poshpohmx_str='999/999/9999'
-    poshpohmx.append(poshpohmx_str)
-    splt_poshpohmx=poshpohmx_str.split('/')
-    posh.append(int(splt_poshpohmx[0]))
-    poh.append(int(splt_poshpohmx[1]))
-    mxsize.append(str(splt_poshpohmx[2]))
-
-    vil_str= data[38:42]
-    vil.append(vil_str)
-
-    dbzm_str= data[42:46]
-    dbzm.append(dbzm_str)
-
-    ht_str= data[46:51]
-    ht.append(ht_str)
-
-    top_str= data[51:57]
-    top.append(top_str)
-
+    pos45min_str =      data[60:67]
+    if no_data in pos45min_str:
+        pos45min_str='999/999'
+    pos45.append(pos45min_str)
+    splt_pos45=pos45min_str.split('/')
+    pos45_az.append(int(splt_pos45[0]))
+    pos45_rng.append(int(splt_pos45[1]))
     #
+    pos60min_str =      data[70:77]
+    if no_data in pos60min_str:
+        pos60min_str = '999/999'
+    pos60.append(pos60min_str)
+    splt_pos60=pos60min_str.split('/')
+    pos60_az.append(int(splt_pos60[0]))
+    pos60_rng.append(int(splt_pos60[1]))
     #
     #print("Storm ID, Current AZRAN, Movement, 15min pos, 30 min pos, 45 min pos, 60 min pos")
-    print(storm_id_str+" "+current_azran_str+" "+movement_str+" "+tvs_str+" "+mda_str+" "+poshpohmx_str+" "+vil_str+""+dbzm_str+""+ht_str+""+top_str+"")
-
+    print(storm_id_str+" "+current_azran_str+" "+movement_str+" "+pos15min_str+" "+pos30min_str+" "+pos45min_str+" "+pos60min_str+"")
 
 # Now we plot the data
 #real_lat_radar 
@@ -1312,7 +1274,6 @@ cent_lat = real_lat_radar
 fig = plt.figure(figsize=(15, 15))
 add_metpy_logo(fig, 190, 85, size='large')
 
-
 ctables = (('NWSStormClearReflectivity', -20, 0.5),  # dBZ
            ('NWS8bitVel', -100, 1.0))  # m/s
 
@@ -1321,6 +1282,24 @@ ctables = (('NWSStormClearReflectivity', -20, 0.5),  # dBZ
 crs=ccrs.PlateCarree()
 #crs=ccrs.LambertConformal(central_longitude=cent_lon, central_latitude=real_lat_radar)
 ax = fig.add_subplot(1,1,1, projection=crs)
+
+#
+curr_lat=[]
+curr_lon=[]
+#
+lat15=[]
+lon15=[]
+#
+lat30=[]
+lon30=[]
+#
+lat45=[]
+lon45=[]
+#
+lat60=[]
+lon60=[]
+#
+
 
 xlr, ylr = azimuth_range_to_lat_lon(0, 0, cent_lon, cent_lat)
 
@@ -1336,106 +1315,81 @@ R=6371.0
 
 nm2km=1.852
 
-
-#
-curr_lat=[]
-curr_lon=[]
-#
-lat_mda1=[]
-lon_mda1=[]
-#
-lat_mda3=[]
-lon_mda3=[]
-#
-lat_mda5=[]
-lon_mda5=[]
-#
-lat_tvs=[]
-lon_tvs=[]
-#
-lat_hail1=[]
-lon_hail1=[]
-#
-lat_cell=[]
-lon_cell=[]
-#
-#
-# In this section, we will plot TVS as a red triangle pointed down. Mesocyclones are green circles. All other cells are small blue squares.
-#
-
 ii=0
 for item in storm_id:
 
-    angl=float(curr_az[ii])#*degtorad
-    rng=float(curr_range[ii])*1.852
+    #angl=float(curr_az[ii])*degtorad
+    angl=float(curr_az[ii])
+    rng=float(curr_range[ii])*nm2km
 
     xlo, ylo = azimuth_range_to_lat_lon(angl, rng, cent_lon, cent_lat)
     lat2, lon2 = get_point_at_distance(cent_lat, cent_lon, rng, angl)
     curr_lat.append(lat2) 
     curr_lon.append(lon2) 
     
-    mdain=mda[ii]
-    mdanbr=float( mdain )
-    #
-    print('mdain is '+str(mdain))
+    #lat2 = math.degrees((rng/R) * math.cos(angl)) + cent_lat
+    #lon2 = math.degrees((rng/(R*math.sin(math.radians(lat2)))) * math.sin(angl)) + cent_lon
+
+    if (pos15_rng[ii] == 999) or (pos15_az[ii] == 999):
+        lat2a, lon2a = get_point_at_distance(cent_lat, cent_lon, rng, angl)
+        lat15.append(lat2a)
+        lon15.append(lon2a)
+    else:
+        lat2a, lon2a = get_point_at_distance(cent_lat, cent_lon, float(pos15_rng[ii])*nm2km, float(pos15_az[ii]))
+        lat15.append(lat2a)
+        lon15.append(lon2a)
+    # - - - - - - - - - - - - - - - - - 
+    if (pos30_rng[ii] == 999) or (pos30_az[ii] == 999):
+        lat2b, lon2b = lat2a, lon2a
+        lat30.append(lat2b)
+        lon30.append(lon2b)
+    else:
+        lat2b, lon2b = get_point_at_distance(cent_lat, cent_lon, float(pos30_rng[ii])*nm2km, float(pos30_az[ii]))
+        lat30.append(lat2b)
+        lon30.append(lon2b)
+    # - - - - - - - - - - - - - - - - - 
+    if (pos45_rng[ii] == 999) or (pos45_az[ii] == 999):
+        lat2c, lon2c = lat2b, lon2b
+        lat45.append(lat2c)
+        lon45.append(lon2c)
+    else:
+        lat2c, lon2c = get_point_at_distance(cent_lat, cent_lon, float(pos45_rng[ii])*nm2km, float(pos45_az[ii]))
+        lat45.append(lat2c)
+        lon45.append(lon2c)
+    # - - - - - - - - - - - - - - - - -  
+    if (pos60_rng[ii] == 999) or (pos60_az[ii] == 999):
+        lat2d, lon2d = lat2c, lon2c
+        lat60.append(lat2d)
+        lon60.append(lon2d)
+    else:
+        lat2d, lon2d = get_point_at_distance(cent_lat, cent_lon, float(pos60_rng[ii])*nm2km, float(pos60_az[ii]))
+        lat60.append(lat2d)
+        lon60.append(lon2d)
+    # 
+
+    latlist=[lat2, lat2a, lat2b, lat2c, lat2d]
+    lonlist=[lon2, lon2a, lon2b, lon2c, lon2d]
+
+    ax.plot(lonlist, latlist, 'o-', color='black')
+
+    ax.plot(lon2a,lat2a,'o', label=storm_id[ii], color='green', transform=ccrs.Geodetic())
+    ax.plot(lon2b,lat2b,'o', label=storm_id[ii], color='red', transform=ccrs.Geodetic())
+    ax.plot(lon2c,lat2c,'o', label=storm_id[ii], color='orange', transform=ccrs.Geodetic())
+    ax.plot(lon2d,lat2d,'o', label=storm_id[ii], color='purple', transform=ccrs.Geodetic())
+
+    angl=float(curr_az[ii])
+    rng=float(curr_range[ii])*nm2km
+    xlo, ylo = azimuth_range_to_lat_lon(angl, rng, cent_lon, cent_lat)
+    lat2, lon2 = get_point_at_distance(cent_lat, cent_lon, rng, angl)
 
     ax.plot(lon2,lat2,'o', label=storm_id[ii], color='blue', transform=ccrs.Geodetic())
 
-    # This plots mesocyclone info. Mesocyclone strength of 1 or 2 is a small green circle with a smaller white center.
-    # Strength 3 or 4 is a bigger green circle with a pink center. 5 and higher is a large green circle.     
-
-    if '999' in mdain:
-        print('No Meso detected in '+storm_id[ii])
-
-    else:
-        if mdanbr < 3:
-            lat_mda1.append(lat2) 
-            lon_mda1.append(lon2)
-            ax.plot(lon2,lat2,'o', label=storm_id[ii], color='green',markersize=8, transform=ccrs.Geodetic())
-            ax.plot(lon2,lat2,'o', label=storm_id[ii], color='white',markersize=4, transform=ccrs.Geodetic())
-        if mdanbr >= 3:
-            lat_mda3.append(lat2) 
-            lon_mda3.append(lon2)
-            ax.plot(lon2,lat2,'o', label=storm_id[ii], color='green',markersize=8, transform=ccrs.Geodetic())
-            ax.plot(lon2,lat2,'o', label=storm_id[ii], color='pink',markersize=4, transform=ccrs.Geodetic())
-        if mdanbr >= 5:
-            lat_mda5.append(lat2) 
-            lon_mda5.append(lon2)
-            ax.plot(lon2,lat2,'o', label=storm_id[ii], color='green',markersize=12, transform=ccrs.Geodetic())
-            ax.plot(lon2,lat2,'o', label=storm_id[ii], color='black',markersize=2, transform=ccrs.Geodetic())
-
-    tvsq=tvs[ii]
-    if 'TVS' in tvsq:
-        lat_tvs.append(lat2)
-        lon_tvs.append(lon2)
-        ax.plot(lon2,lat2,"v", label=storm_id[ii], color='red',markersize=18, transform=ccrs.Geodetic())
-        #ax.plot(angl,rng,"v", label=storm_id[ii], color='red',markersize=18)
-
-    #ax.plot(angl,rng,'s', label=storm_id[ii], color='blue' )
-    
+    #
+    print('xlo='+str(xlo)+'  ylo='+str(ylo))
+    # 
     print("The Storm ID is:"+str(storm_id[ii]))   
     ax.text(lon2,lat2, storm_id[ii] ,horizontalalignment='center', verticalalignment='bottom')
-
     ii=ii+1
-
-# This part determines the max range for plotting. If there are cells over 300 km away, we include them.
-# If there is a cell over 460 km away, we will not plot it, it is not in the range of the radar. 
-# So 460 km is the greatest range allowed.
-# Note we will at least plot 300 km.
-
-mx_c_rng=float(max(curr_range))*1.852
-
-print('maximum rng= '+str(mx_c_rng))
-
-maxrange=300.0 # km
-
-if mx_c_rng > maxrange:
-    maxrange = mx_c_rng+20.0
-
-if maxrange > 460.0:
-    maxrange = 460.0
-
-# This ends the max range part.
 
 
 #xlocs, ylocs = azimuth_range_to_lat_lon(az, rng, cent_lon, cent_lat)
@@ -1465,9 +1419,10 @@ ax.add_feature(cfeature.LAND)
 
 # csv comes first
 
+
 # Make processed csv the file
 
-pcsvfile=thefile+".NCR_proc.csv"
+pcsvfile=thefile+".NST_proc.csv"
 
 print(DADASH)
 print("Making the updated CSV file With geo-navigation, file name is:"+str(pcsvfile))
@@ -1475,13 +1430,13 @@ print(DADASH)
 
 with open(pcsvfile, 'w', newline='') as filecsv:
     writer = csv.writer(filecsv)
-    csvfield = ["Storm_Id","begining_azimuth","beginning_range","radar_lat", "radar_lon","lat","long","tvs","mda","posh","poh","mxsize","vil","dbzm","ht", "top"]
+    csvfield = ["Storm_Id","begining_azimuth","beginning_range","radar_lat", "radar_lon","lat","long","lat15","lon15","lat30","lon30","lat45","lon45","lat60","lon60"]
     writer.writerow(csvfield)
     ii=0
     for item in storm_id:
         stritem=str(item)
         writer.writerow([item,curr_az[ii],curr_range[ii], \
-            cent_lat,cent_lon,curr_lat[ii],curr_lon[ii],tvs[ii],mda[ii],posh[ii],poh[ii],mxsize[ii],vil[ii],dbzm[ii],ht[ii],top[ii] ]) 
+            cent_lat,cent_lon,curr_lat[ii],curr_lon[ii],lat15[ii],lon15[ii],lat30[ii],lon30[ii],lat45[ii],lon45[ii],lat60[ii],lon60[ii] ]) 
         ii=ii+1
 # end of making the processed CSV.
 #
@@ -1489,10 +1444,12 @@ printok()
 print("The processed csv file was made. The file name is: "+str(pcsvfile))
 printok()
 
+
 # Make the kml file
 makekml =1
 
-kml_filemain=thefile+".NCR_proc.kml"
+kml_filemain=thefile+".NST_proc2.kml"
+
 
 if makekml ==1:
     printok()
@@ -1502,134 +1459,103 @@ if makekml ==1:
     ff.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
     ff.write("<kml xmlns=\"http://www.opengis.net/kml/2.2\">\n")
     ff.write("  <Document>\n")
-    tvsflag=0
-    #
-    mda1flag=0
-    mda3flag=0
-    mda5flag=0
-    #
     ii=0
     for item in storm_id:
-        tvsflag=0
-        #
-        mda1flag=0
-        mda3flag=0
-        mda5flag=0
-        #
         stritem=str(item)
+        # storm location
+        ff.write("    <Placemark>\n")
+        ff.write("     <Style>\n") 
+        ff.write("      <IconStyle>\n")
+        ff.write("      <scale>1.0</scale>\n") 
+        ff.write("       <Icon>\n") 
+        ff.write("       <href>http://maps.google.com/mapfiles/kml/paddle/ylw-blank.png</href>\n")  ## ylw-blank is a yello paddle pin. 
+        ff.write("       </Icon>\n")
+        ff.write("     </IconStyle>\n")
+        ff.write("     </Style>\n")
+        ff.write("      <name>" + str(item) + "</name>\n")
+        ff.write("      <description>" + str(item) + "</description>\n")
+        ff.write("      <Point>\n")
+        ff.write("        <coordinates>"+str(curr_lon[ii])+","+str(curr_lat[ii])+"</coordinates>\n")
+        ff.write("      </Point>\n")
+        ff.write("    </Placemark>\n")
+        # 15 min forecast
+        ff.write("    <Placemark>\n")
+        ff.write("     <Style>\n") 
+        ff.write("      <IconStyle>\n")
+        ff.write("      <scale>1.0</scale>\n") 
+        ff.write("       <Icon>\n") 
+        ff.write("       <href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle_highlight.png</href>\n")  ## placemark_circle_highlight is a red circle with a black dot. 
+        ff.write("       </Icon>\n")
+        ff.write("     </IconStyle>\n")
+        ff.write("     </Style>\n")
+        ff.write("      <name>"+"15"+"</name>\n")
+        ff.write("      <description>"+"15"+"</description>\n")
+        ff.write("      <Point>\n")
+        ff.write("        <coordinates>"+str(lon15[ii])+","+str(lat15[ii])+"</coordinates>\n")
+        ff.write("      </Point>\n")
+        ff.write("    </Placemark>\n")
+        # 30 min forecast
+        ff.write("    <Placemark>\n")
+        ff.write("     <Style>\n") 
+        ff.write("      <IconStyle>\n")
+        ff.write("      <scale>1.0</scale>\n") 
+        ff.write("       <Icon>\n") 
+        ff.write("       <href>http://maps.google.com/mapfiles/kml/shapes/placemark_square.png</href>\n")  ## placemark_square is a white square with a black dot. 
+        ff.write("       </Icon>\n")
+        ff.write("     </IconStyle>\n")
+        ff.write("     </Style>\n")
+        ff.write("      <name>"+"30"+"</name>\n")
+        ff.write("      <description>"+"30"+"</description>\n")
+        ff.write("      <Point>\n")
+        ff.write("        <coordinates>"+str(lon30[ii])+","+str(lat30[ii])+"</coordinates>\n")
+        ff.write("      </Point>\n")
+        ff.write("    </Placemark>\n")
+        # 45 min forecast
+        ff.write("    <Placemark>\n")
+        ff.write("     <Style>\n") 
+        ff.write("      <IconStyle>\n")
+        ff.write("      <scale>1.0</scale>\n") 
+        ff.write("       <Icon>\n") 
+        ff.write("       <href>http://maps.google.com/mapfiles/kml/shapes/placemark_square.png</href>\n")  ## placemark_square is a white square with a black dot. 
+        ff.write("       </Icon>\n")
+        ff.write("     </IconStyle>\n")
+        ff.write("     </Style>\n")
+        ff.write("      <name>"+"45"+"</name>\n")
+        ff.write("      <description>"+"45"+"</description>\n")
+        ff.write("      <Point>\n")
+        ff.write("        <coordinates>"+str(lon45[ii])+","+str(lat45[ii])+"</coordinates>\n")
+        ff.write("      </Point>\n")
+        ff.write("    </Placemark>\n")
+        # 60 min forecast
+        ff.write("    <Placemark>\n")
+        ff.write("     <Style>\n") 
+        ff.write("      <IconStyle>\n")
+        ff.write("      <scale>1.0</scale>\n") 
+        ff.write("       <Icon>\n") 
+        ff.write("       <href>http://maps.google.com/mapfiles/kml/shapes/placemark_square_highlight.png</href>\n")  ## placemark_square_highlight is a red square with a black dot. 
+        ff.write("       </Icon>\n")
+        ff.write("     </IconStyle>\n")
+        ff.write("     </Style>\n")
+        ff.write("      <name>"+"60"+"</name>\n")
+        ff.write("      <description>"+"60"+"</description>\n")
+        ff.write("      <Point>\n")
+        ff.write("        <coordinates>"+str(lon60[ii])+","+str(lat60[ii])+"</coordinates>\n")
+        ff.write("      </Point>\n")
+        ff.write("    </Placemark>\n")
         #
-        mdain=mda[ii]
-        # If there is a TVS, we only plot the TVS, not the MDA too.
-        if tvsflag == 1:
-            madin='999'
-        mdanbr=float( mdain )
-        if '999' in mdain:
-            mda1flag=0
-            mda3flag=0
-            mda5flag=0
-            mdanbr=999.0
-            #
-            print('No Meso detected in '+storm_id[ii])
-        else:
-            if mdanbr < 3:
-                mda1flag=1
-                ff.write("    <Placemark>\n")
-                ff.write("     <Style>\n") 
-                ff.write("      <IconStyle>\n")
-                ff.write("      <scale>1.0</scale>\n") 
-                ff.write("       <Icon>\n") 
-                ff.write("       <href>http://maps.google.com/mapfiles/kml/shapes/road_shield3.png</href>\n")  ## road_shield3 is a white circle. MDA level 1 or 2.
-                ff.write("       </Icon>\n")
-                ff.write("     </IconStyle>\n")
-                ff.write("     </Style>\n")
-                ff.write("      <name>" + str(item) + "</name>\n")
-                ff.write("      <description>" + str(item) + "</description>\n")
-                ff.write("      <Point>\n")
-                ff.write("        <coordinates>"+str(curr_lon[ii])+","+str(curr_lat[ii])+"</coordinates>\n")
-                ff.write("      </Point>\n")
-                ff.write("    </Placemark>\n")
-                #
-            if (mdanbr >= 3) and (mdanbr < 5):
-                mda3flag=1
-                mda1flag=0
-                ff.write("    <Placemark>\n")
-                ff.write("     <Style>\n") 
-                ff.write("      <IconStyle>\n")
-                ff.write("      <scale>2.1</scale>\n")  
-                ff.write("       <Icon>\n") 
-                ff.write("       <href>http://maps.google.com/mapfiles/kml/shapes/donut.png</href>\n")  ## donut is a large white circle with an inner circle. MDA level 3 or 4.
-                ff.write("       </Icon>\n")
-                ff.write("     </IconStyle>\n")
-                ff.write("     </Style>\n")
-                ff.write("      <name>" + str(item) + "</name>\n")
-                ff.write("      <description>" + str(item) + "</description>\n")
-                ff.write("      <Point>\n")
-                ff.write("        <coordinates>"+str(curr_lon[ii])+","+str(curr_lat[ii])+"</coordinates>\n")
-                ff.write("      </Point>\n")
-                ff.write("    </Placemark>\n")
-                #
-            if (mdanbr >= 5) and (mdanbr < 900):
-                mda5flag=1
-                mda3flag=0
-                mda1flag=0
-                ff.write("    <Placemark>\n")
-                ff.write("     <Style>\n") 
-                ff.write("      <IconStyle>\n")
-                ff.write("      <scale>2.5</scale>\n")                   
-                ff.write("       <Icon>\n") 
-                ff.write("       <href>http://maps.google.com/mapfiles/kml/shapes/target.png</href>\n")  ## Target is three concentric circles. MDA level 5 or up.
-                ff.write("       </Icon>\n")
-                ff.write("     </IconStyle>\n")
-                ff.write("     </Style>\n")
-                ff.write("      <name>" + str(item) + "</name>\n")
-                ff.write("      <description>" + str(item) + "</description>\n")
-                ff.write("      <Point>\n")
-                ff.write("        <coordinates>"+str(curr_lon[ii])+","+str(curr_lat[ii])+"</coordinates>\n")
-                ff.write("      </Point>\n")
-                ff.write("    </Placemark>\n")
-                #
-        #
-        allinone=tvsflag+mda1flag+mda3flag+mda5flag
-        # This is the case where there in no TVS or MDA. Simply a normal cell.
-        if allinone ==0:
-            ff.write("    <Placemark>\n")
-            ff.write("     <Style>\n") 
-            ff.write("      <IconStyle>\n")
-            ff.write("      <scale>1.5</scale>\n") 
-            ff.write("       <Icon>\n") 
-            ff.write("       <href>http://maps.google.com/mapfiles/kml/shapes/placemark_circle.png</href>\n")  ## Placemark circle is a small white circle with black dot. Normal cell.
-            ff.write("       </Icon>\n")
-            ff.write("     </IconStyle>\n")
-            ff.write("     </Style>\n")
-            ff.write("      <name>" + str(item) + "</name>\n")
-            ff.write("      <description>" + str(item) + "</description>\n")
-            ff.write("      <Point>\n")
-            ff.write("        <coordinates>"+str(curr_lon[ii])+","+str(curr_lat[ii])+"</coordinates>\n")
-            ff.write("      </Point>\n")
-            ff.write("    </Placemark>\n")
-        #
-        tvsq=tvs[ii]
-        if 'TVS' in tvsq:
-            tvsflag=1
-            ff.write("    <Placemark>\n")
-            ff.write("     <Style>\n") 
-            ff.write("      <IconStyle>\n")
-            ff.write("      <scale>2.5</scale>\n")
-            ff.write("       <Icon>\n") 
-            ff.write("       <href>http://maps.google.com/mapfiles/kml/paddle/red-stars.png</href>\n")  ## red-stars is a pin mark that is red and has a star in it. This is a TVS symbol
-            ff.write("       </Icon>\n")
-            ff.write("     </IconStyle>\n")
-            ff.write("     </Style>\n")
-            ff.write("      <name>" + str(item) + "</name>\n")
-            ff.write("      <description>" + str(item) + "</description>\n")
-            ff.write("      <Point>\n")
-            ff.write("        <coordinates>"+str(curr_lon[ii])+","+str(curr_lat[ii])+"</coordinates>\n")
-            ff.write("      </Point>\n")
-            ff.write("    </Placemark>\n")
-            # End of TVS
-        # End of TVS
-
-        #
+        ff.write("    <Placemark>\n")
+        ff.write("      <name>" + str(item)+'(b)'+ "</name>\n")
+        ff.write("      <description>" + str(item)+'(b)'+ "</description>\n")
+        ff.write("      <LineString>\n")
+        ff.write("          <coordinates>\n")
+        ff.write("          "+str(curr_lon[ii])+","+str(curr_lat[ii])+",0\n")
+        ff.write("          "+str(lon15[ii])+","+str(lat15[ii])+",0\n")
+        ff.write("          "+str(lon30[ii])+","+str(lat30[ii])+",0\n")
+        ff.write("          "+str(lon45[ii])+","+str(lat45[ii])+",0\n")
+        ff.write("          "+str(lon60[ii])+","+str(lat60[ii])+",0\n")
+        ff.write("          </coordinates>\n") #  </coordinates>
+        ff.write("      </LineString>\n")      #   </LineString>
+        ff.write("    </Placemark>\n")
         ii=ii+1
         #
     ff.write("    <Placemark>\n")
@@ -1647,7 +1573,7 @@ if makekml ==1:
     ff.write("        <coordinates>"+str(cent_lon)+","+str(cent_lat)+"</coordinates>\n")
     ff.write("      </Point>\n")
     ff.write("    </Placemark>\n")
-    # 
+     # 
     ff.write("  </Document>\n")
     ff.write("</kml>\n")
     ff.close()
@@ -1657,56 +1583,88 @@ printok()
 print("The processed kml file was made. The file name is: "+str(kml_filemain))
 printok()
 
+#plot the python map of the information.
 plt.show()
 
 
-
-#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-# END of program
-
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#END
 
 
-#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-#od -S 0 KFDR_SDUS84_NCZFDR_202205050117 | grep /
-#0020260  STM ID  AZ/RAN TVS  MDA  POSH/POH/MX SIZE VIL DBZM  HT  TOP  FCST MVMT 
-#0020402     Q2  237/ 37 TVS     7   70/100/ 1.50    66  64  8.4  37.4  240/ 16  
-#0020524     Q3  304/ 53 TVS     6   80/100/ 1.75    67  65 12.4  38.5  271/ 29  
-#0020646     W7  212/ 86 TVS     6   50/100/ 1.00    56  58 10.3  39.6  242/ 25  
-#0020767 )    Q7   63/121 TVS  NONE   80/100/ 1.75    66  62 22.4  42.5  238/ 31  
-#0021332  STM ID  AZ/RAN TVS  MDA  POSH/POH/MX SIZE VIL DBZM  HT  TOP  FCST MVMT 
-#0021454     A6   61/112 TVS     4   60/100/ 1.25    24  60 20.0  39.0  243/ 23  
-#0021576     T2   62/154 NONE    8     UNKNOWN       69  60 25.7  47.2  228/ 17  
-#0021720     F9  259/ 91 NONE    6   50/100/ 1.00    47  60 15.0  29.7  229/ 33  
-#0022041 )    O9   56/112 NONE    6   20/ 90/ 0.50    31  53 15.5  30.7  221/ 29  
-#0022404  STM ID  AZ/RAN TVS  MDA  POSH/POH/MX SIZE VIL DBZM  HT  TOP  FCST MVMT 
-#0022526     I9  213/ 95 NONE    5   60/100/ 1.25    61  61 16.0  46.5  246/ 37  
-#0022650     S6  217/120 NONE NONE   80/100/ 2.00    65  65 17.2  40.7  233/ 17  
-#0022772     U8  253/ 62 NONE    3   60/100/ 1.25    63  60 11.8  45.7  220/ 14  
-#0023113 )    R7  249/ 52 NONE    4   60/100/ 1.25    56  61  7.0  35.6  246/ 17  
-#0023456  STM ID  AZ/RAN TVS  MDA  POSH/POH/MX SIZE VIL DBZM  HT  TOP  FCST MVMT 
-#0023600     Y9   19/ 24 NONE NONE   30/100/ 0.75    24  55 16.2  32.6    NEW    
-#0023722     H9    3/108 NONE    2   30/ 90/ 0.75    43  56 14.4  30.0  216/ 23  
-#0024044     E9  315/ 71 NONE    1   20/100/ 0.75    39  56 17.6  33.2  216/ 39  
-#0024165 )    S9  327/ 74 NONE    3   20/100/ 0.50    29  55 18.2  28.6  241/ 16  
-#0024530  STM ID  AZ/RAN TVS  MDA  POSH/POH/MX SIZE VIL DBZM  HT  TOP  FCST MVMT 
-#0024652     K9  340/ 91 NONE NONE   20/100/ 0.50    23  52 23.6  29.5  224/ 25  
-#0024774     W8   82/ 65 NONE NONE   20/ 90/ 0.75    31  58 15.7  31.6  237/ 21  
-#0025116     Z8  208/ 76 NONE    2   10/100/ 0.50    33  54  8.5  35.8  232/ 25  
-#0025237 )    M9  271/ 42 NONE    1   10/ 80/ 0.50    37  60  7.4  23.3  245/ 29  
-#0025602  STM ID  AZ/RAN TVS  MDA  POSH/POH/MX SIZE VIL DBZM  HT  TOP  FCST MVMT 
-#0025724     H6  359/113 NONE    3    0/ 80/ 0.50    25  53 15.6  26.9  246/ 29  
-#0026046     V2  332/ 83 NONE    3    0/ 70/ 0.50    29  55  9.6  27.4  249/ 25  
-#0026170     P0  271/ 48 NONE    2    0/ 70/<0.50     6  47 22.1  27.4    NEW    
-#0026311 )    M7  352/107 NONE    3    0/ 10/<0.50    17  51 14.3  28.4  239/ 23  
-#0026654  STM ID  AZ/RAN TVS  MDA  POSH/POH/MX SIZE VIL DBZM  HT  TOP  FCST MVMT 
-#0026776     L7   47/126 NONE NONE     UNKNOWN       40  55 18.5  37.1  219/ 23  
-#0027120     Z7  113/152 NONE NONE     UNKNOWN       31  52 25.2  38.9  204/ 35  
-#0027242     Z9   40/134 NONE NONE     UNKNOWN       20  51 20.5  26.4    NEW    
-#0027363 )    L0   60/130 NONE NONE     UNKNOWN       19  49 19.5  32.3    NEW    
-#0027726  STM ID  AZ/RAN TVS  MDA  POSH/POH/MX SIZE VIL DBZM  HT  TOP  FCST MVMT 
-#0030050     B9  315/ 79 NONE    3    0/  0/ 0.00    17  53  8.9  20.3  222/ 35  
-#0030172     T8  292/ 32 NONE NONE    0/  0/ 0.00    14  56  7.4  23.9  246/ 39  
-#0030314     U9   29/144 NONE NONE     UNKNOWN       12  46 23.1  29.4  222/ 39  
-#0030435 )    J9  277/ 68 NONE    1    0/  0/ 0.00    12  52  7.2  25.5  235/ 31  
-#[pmccrone@lnx064 test]$ 
+#>>> PDBLINE0='00000030: ffff 0000 863a fffe 7d5f 0523 003a 0002 00d4 0173 0009 4aae 0000 32cb 4abc  .....:..}_.#.:.....s..J...2.J.'
+#>>> PDBLINE0[25:34]
+#'fffe 7d5f'
+
+#0022471 P                            STORM POSITION/FORECAST
+#0022613 P     RADAR ID 305  DATE/TIME 05:05:22/01:17:24   NUMBER OF STORM CELLS  45
+#0022735 P
+#0023057 P                   AVG SPEED 26 KTS    AVG DIRECTION 232 DEG
+#0023201 P
+#0023323 P STORM    CURRENT POSITION              FORECAST POSITIONS               ERROR
+#0023445 P  ID     AZRAN     MOVEMENT    15 MIN    30 MIN    45 MIN    60 MIN    FCST/MEAN
+#0023567 P        (DEG/NM)  (DEG/KTS)   (DEG/NM)  (DEG/NM)  (DEG/NM)  (DEG/NM)     (NM)
+#0023711 P
+#0024033 P  T2      62/154   229/ 18      62/158    61/163    61/167    61/172    0.9/ 0.8
+#0024155 P  Q3     304/ 53   271/ 30     309/ 47   316/ 41   324/ 36   335/ 32    0.9/ 1.0
+#0024277 P  Q2     237/ 37   241/ 17     236/ 33   236/ 29   235/ 25   NO DATA    1.4/ 1.1
+#0024421 P  Q7      63/121   239/ 32      63/129    63/137    63/145    62/153    0.5/ 1.9
+#0024543 P  S6     217/120   234/ 19     216/115   215/111   215/106   214/102    0.3/ 1.2
+#0024665 P  U8     253/ 62   221/ 15     255/ 59   257/ 56   NO DATA   NO DATA    1.6/ 3.7
+#0025133 P                            STORM POSITION/FORECAST
+#0025255 P     RADAR ID 305  DATE/TIME 05:05:22/01:17:24   NUMBER OF STORM CELLS  45
+#0025377 P
+#0025521 P STORM    CURRENT POSITION              FORECAST POSITIONS               ERROR
+#0025643 P  ID     AZRAN     MOVEMENT    15 MIN    30 MIN    45 MIN    60 MIN    FCST/MEAN
+#0025765 P        (DEG/NM)  (DEG/KTS)   (DEG/NM)  (DEG/NM)  (DEG/NM)  (DEG/NM)     (NM)
+#0026107 P
+#0026231 P  R7     249/ 52   246/ 18     249/ 47   249/ 43   250/ 38   250/ 34    0.3/ 0.6
+#0026353 P  W7     212/ 86   243/ 26     210/ 81   207/ 76   204/ 71   201/ 66    0.9/ 1.3
+#0026475 P  F9     259/ 91   230/ 34     261/ 84   265/ 77   269/ 70   273/ 64    0.9/ 0.7
+#0026617 P  H9       3/108   216/ 24       5/113     7/118     8/123     9/129    0.2/ 0.6
+#0026741 P  L7      47/126   219/ 24      46/132    46/138    46/144    45/149    0.6/ 0.9
+#0027063 P  E9     315/ 71   217/ 40     322/ 73   330/ 76   336/ 81   342/ 86    0.4/ 1.1
+#0027205 P  M9     271/ 42   245/ 29     276/ 36   283/ 30   294/ 24   310/ 20    0.7/ 0.8
+#0027327 P  Z8     208/ 76   232/ 26     206/ 70   203/ 64   200/ 59   NO DATA    1.5/ 0.9
+#0027575 P                            STORM POSITION/FORECAST
+#0027717 P     RADAR ID 305  DATE/TIME 05:05:22/01:17:24   NUMBER OF STORM CELLS  45
+#0030041 P
+#0030163 P STORM    CURRENT POSITION              FORECAST POSITIONS               ERROR
+#0030305 P  ID     AZRAN     MOVEMENT    15 MIN    30 MIN    45 MIN    60 MIN    FCST/MEAN
+#0030427 P        (DEG/NM)  (DEG/KTS)   (DEG/NM)  (DEG/NM)  (DEG/NM)  (DEG/NM)     (NM)
+#0030551 P
+#0030673 P  W8      82/ 65   237/ 23      81/ 70    79/ 75   NO DATA   NO DATA    1.8/ 1.8
+#0031015 P  Z7     113/152   205/ 36     110/152   107/153   103/155   NO DATA    1.2/ 1.9
+#0031137 P  V2     332/ 83   249/ 25     337/ 83   NO DATA   NO DATA   NO DATA    2.6/ 1.1
+#0031261 P  S9     327/ 74   242/ 16     330/ 73   333/ 73   337/ 74   NO DATA    1.2/ 1.2
+#0031403 P  H6     359/113   247/ 29       3/116     6/120     9/123    11/127    0.5/ 1.7
+#0031525 P  Y9      19/ 24     NEW       NO DATA   NO DATA   NO DATA   NO DATA    0.0/ 0.0
+#0031647 P  A6      61/112   243/ 24      61/118    61/124    61/130    61/136    0.9/ 1.0
+#0031771 P  K9     340/ 91   225/ 26     343/ 94   347/ 97   350/100   NO DATA    1.2/ 1.0
+#0032237 P                            STORM POSITION/FORECAST
+#0032361 P     RADAR ID 305  DATE/TIME 05:05:22/01:17:24   NUMBER OF STORM CELLS  45
+#0032503 P
+#0032625 P STORM    CURRENT POSITION              FORECAST POSITIONS               ERROR
+#0032747 P  ID     AZRAN     MOVEMENT    15 MIN    30 MIN    45 MIN    60 MIN    FCST/MEAN
+#0033071 P        (DEG/NM)  (DEG/KTS)   (DEG/NM)  (DEG/NM)  (DEG/NM)  (DEG/NM)     (NM)
+#0033213 P
+#0033335 P  L0      60/130     NEW       NO DATA   NO DATA   NO DATA   NO DATA    0.0/ 0.0
+#0033457 P  B9     315/ 79   223/ 36     322/ 80   328/ 82   334/ 85   340/ 88    0.3/ 0.9
+#0033601 P  M7     352/107   240/ 24     355/109   358/112     1/115     3/118    0.9/ 2.0
+#0033723 P  T8     292/ 32   247/ 41     308/ 26   331/ 23   NO DATA   NO DATA    1.9/ 1.3
+#0034045 P  J9     277/ 68   236/ 32     282/ 62   288/ 57   295/ 53   303/ 49    0.8/ 0.7
+#0034167 P  U9      29/144   222/ 39      30/154    31/163    31/173   NO DATA    1.4/ 1.4
+#0034311 P  O6      49/152   217/ 43      48/162   NO DATA   NO DATA   NO DATA    2.8/ 2.0
+#0034433 P  P9      64/141   216/ 38      62/149    61/158   NO DATA   NO DATA    1.6/ 1.6
+#0034701 P              STORM CELL TRACKING/FORECAST ADAPTATION DATA
+#0035023 P
+#0035145 P    225   (DEG) DEFAULT (DIRECTION)      2.5   (M/S) THRESH (MINIMUM SPEED)
+#0035267 P   25.0   (KTS) DEFAULT (SPEED)           20    (KM) ALLOWABLE ERROR
+#0035411 P     20   (MIN) TIME (MAXIMUM)            15   (MIN) FORECAST INTERVAL
+#0035533 P     10         NUMBER OF PAST VOLUMES     4         NUMBER OF INTERVALS
+#0035655 P   30.0   (M/S) CORRELATION SPEED         15   (MIN) ERROR INTERVAL
+#0035777 P
+#0036121 P
+#0036243 P              SCIT REFLECTIVITY MEDIAN FILTER
+#0036365 P
+#0036507 P    7.0   (KM)  FILTER KERNEL SIZE       0.5         THRESH (FILTER FRACTION)
 ##########
