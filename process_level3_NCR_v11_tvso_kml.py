@@ -61,7 +61,102 @@
 #outputdir='/home/pmccrone/Pictures/tvso/23KFDRGN01C'
 #outputdir='/home/pmccrone/Pictures/tvso/24KINXGN01B'
 #outputdir='/home/pmccrone/Pictures/tvso/25KINXGN01C'
-outputdir='/home/pmccrone/Pictures/tvso/26KINXGN01D'
+#outputdir='/home/pmccrone/Pictures/tvso/26KINXGN01D'
+#outputdir='/home/pmccrone/Pictures/tvso/27KTLXBB01A'
+#outputdir='/home/pmccrone/Pictures/tvso/28KTLXBB01B'
+#outputdir='/home/pmccrone/Pictures/tvso/29KTLXBB01C'
+#outputdir='/home/pmccrone/Pictures/tvso/30KTLXBB01D'
+#outputdir='/home/pmccrone/Pictures/tvso/31KVNXBB01A'
+#outputdir='/home/pmccrone/Pictures/tvso/31KVNXBB01B'
+#outputdir='/home/pmccrone/Pictures/tvso/31KVNXBB01C'
+#outputdir='/home/pmccrone/Pictures/tvso/31KVNXBB01D'
+#outputdir='/home/pmccrone/Pictures/tvso/31KINXBB01A'
+#outputdir='/home/pmccrone/Pictures/tvso/31KINXBB01B'
+#outputdir='/home/pmccrone/Pictures/tvso/31KINXBB01C'
+#outputdir='/home/pmccrone/Pictures/tvso/31KINXBB01D'
+#outputdir='/home/pmccrone/Pictures/tvso/31KICTBB01A'
+#outputdir='/home/pmccrone/Pictures/tvso/31KICTBB01B'
+#outputdir='/home/pmccrone/Pictures/tvso/31KICTBB01C'
+#outputdir='/home/pmccrone/Pictures/tvso/31KICTBB01D'
+#outputdir='/home/pmccrone/Pictures/tvso/32KINXHD01A'
+#outputdir='/home/pmccrone/Pictures/tvso/32KINXHD01B'
+#outputdir='/home/pmccrone/Pictures/tvso/32KINXHD01C'
+#outputdir='/home/pmccrone/Pictures/tvso/32KINXHD01D'
+#outputdir='/home/pmccrone/Pictures/tvso/33KOAX01A'
+#outputdir='/home/pmccrone/Pictures/tvso/33KDMX01A'
+#outputdir='/home/pmccrone/Pictures/tvso/33KDMX01B'
+#outputdir='/home/pmccrone/Pictures/tvso/33KDMX01C'
+#outputdir='/home/pmccrone/Pictures/tvso/33KDMX01D'
+#outputdir='/home/pmccrone/Pictures/tvso/33KUEX01A'
+#outputdir='/home/pmccrone/Pictures/tvso/33KUEX01B'
+#outputdir='/home/pmccrone/Pictures/tvso/33KUEX01C'
+#outputdir='/home/pmccrone/Pictures/tvso/33KUEX01D'
+#outputdir='/home/pmccrone/Pictures/tvso/34KAKQ01B'
+#outputdir='/home/pmccrone/Pictures/tvso/34KAKQ01C'
+#outputdir='/home/pmccrone/Pictures/tvso/34KAKQ01D'
+#outputdir='/home/pmccrone/Pictures/tvso/34KDOX01A'
+#outputdir='/home/pmccrone/Pictures/tvso/34KDOX01A'
+#outputdir='/home/pmccrone/Pictures/tvso/34KDOX01B'
+#outputdir='/home/pmccrone/Pictures/tvso/34KDOX01C'
+
+#outputdir='/home/pmccrone/Pictures/tvso/35KGWX01A'
+#outputdir='/home/pmccrone/Pictures/tvso/35KGWX01B'
+#outputdir='/home/pmccrone/Pictures/tvso/35KGWX01C'
+#outputdir='/home/pmccrone/Pictures/tvso/35KGWX01D'
+#
+#outputdir='/home/pmccrone/Pictures/tvso/36KHPX01B'
+
+#outputdir='/home/pmccrone/Pictures/tvso/80KHGX01A'
+#outputdir='/home/pmccrone/Pictures/tvso/40LZK01D'
+#outputdir='/home/pmccrone/Pictures/tvso/40FWS01C'
+#outputdir='/home/pmccrone/Pictures/tvso/40FWS01D'
+#outputdir='/home/pmccrone/Pictures/tvso/40FWS01A'
+#outputdir='/home/pmccrone/Pictures/tvso/40LZK01A'
+#outputdir='/home/pmccrone/Pictures/tvso/40VWX01B'
+#outputdir='/home/pmccrone/Pictures/tvso/40VWX01C'
+#outputdir='/home/pmccrone/Pictures/tvso/40HGX01A'
+#outputdir='/home/pmccrone/Pictures/tvso/40HGX01B'
+#outputdir='/home/pmccrone/Pictures/tvso/40HGX01C'
+#outputdir='/home/pmccrone/Pictures/tvso/40HGX01D'
+#outputdir='/home/pmccrone/Pictures/tvso/40LCH01B'
+#outputdir='/home/pmccrone/Pictures/tvso/40LCH01C'
+#outputdir='/home/pmccrone/Pictures/tvso/40LCH01C'
+#-outputdir='/home/pmccrone/Pictures/tvso/40LCH01D'
+#outputdir='/home/pmccrone/Pictures/tvso/40SHV01A'
+
+#outputdir='/home/pmccrone/Pictures/tvso/40SHV01B'
+#outputdir='/home/pmccrone/Pictures/tvso/40SHV01C'
+#outputdir='/home/pmccrone/Pictures/tvso/40SHV01D'
+#outputdir='/home/pmccrone/Pictures/tvso/40BUF01D'
+
+#outputdir='/home/pmccrone/Pictures/tvso/40BUF01C'
+#outputdir='/home/pmccrone/Pictures/tvso/40BUF01B'
+#outputdir='/home/pmccrone/Pictures/tvso/40BUF01A'
+#outputdir='/home/pmccrone/Pictures/tvso/40PAH01B'
+#outputdir='/home/pmccrone/Pictures/tvso/40PAH01A'
+#outputdir='/home/pmccrone/Pictures/tvso/40PAH01C'
+##outputdir='/home/pmccrone/Pictures/tvso/40PAH01D'
+#outputdir='/home/pmccrone/Pictures/tvso/40OHX01A'
+#outputdir='/home/pmccrone/Pictures/tvso/40OHX01B'
+#outputdir='/home/pmccrone/Pictures/tvso/40OHX01C'
+#outputdir='/home/pmccrone/Pictures/tvso/40OHX01D'
+#outputdir='/home/pmccrone/Pictures/tvso/40LVX01A'
+#outputdir='/home/pmccrone/Pictures/tvso/40LVX01B'
+#outputdir='/home/pmccrone/Pictures/tvso/40LVX01C'
+#outputdir='/home/pmccrone/Pictures/tvso/40LVX01D'
+#outputdir='/home/pmccrone/Pictures/tvso/40HPX01A'
+#outputdir='/home/pmccrone/Pictures/tvso/40HPX01B'
+outputdir='/home/pmccrone/Pictures/tvso/40HPX01D'
+#outputdir='/home/pmccrone/Pictures/tvso/40LCH01B'
+#outputdir='/home/pmccrone/Pictures/tvso/40LCH01C'
+#outputdir='/home/pmccrone/Pictures/tvso/40LCH01D'
+#outputdir='/home/pmccrone/Pictures/tvso/40VWX01D'
+#outputdir='/home/pmccrone/Pictures/tvso/40VWX01A'
+#outputdir='/home/pmccrone/Pictures/tvso/34KDOX01D'
+#34KAKQ01A 34KAKQ01B 34KAKQ01C 34KAKQ01D 34KDOX01A 34KDOX01B 34KDOX01C 34KDOX01D
+
+
+#
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 try:
@@ -71,20 +166,23 @@ try:
     import os
     import sys
     import csv
+    print('Ok Part One')
     import metpy
     import pandas as pd
     import cartopy.crs as ccrs
+    print('Ok Part Two')
     import matplotlib.gridspec as gridspec
     import matplotlib.pyplot as plt
     import numpy as np
     import csv
+    print('Ok Part Three')
     #
     from metpy.calc import azimuth_range_to_lat_lon
     from metpy.io import Level3File
     from metpy.plots import add_metpy_logo, add_timestamp, colortables, USCOUNTIES
     from metpy.units import units
     from math import asin, atan2, cos, degrees, radians, sin
-    #
+    #import csv
     import cartopy.feature as cfeature
     #
     print('Was able to successfully Load Modules')
@@ -124,6 +222,7 @@ DAEQUALS='==--==--==--==--==--==--==--==--==--==--==--==--==--'
 DADASHES='----------------------------------------------------'
 PRTERR="--ERROR--ERROR--ERROR--ERROR--ERROR--ERROR--ERROR--"
 PRTOK='--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--'
+PRTWARN='--WARNING--WARNING--WARNING--WARNING--WARNING--WARNING--'
 
 print('Input filename is:'+str(inputfile))
 
@@ -157,7 +256,7 @@ ALL_call_signs= \
 "KRTX","KPUX","KRAX","KUDX","KRGX","KRIW","KFCX","KJGX","KDAX","KLSX", \
 "KMTX","KSJT","KNKX","KMUX","KHNX","TJUA","KSOX","KATX","KSHV","KFSD", \
 "PACG","PHKI","PHWA","KOTX","KSGF","KCCX","KLWX","KTLH","KTBW","KTWX", \
-"KEMX","KINX","KVNX","KVBX","KICT","KLTX","KFFC","KYUX","KLGX","KHDC"]
+"KEMX","KINX","KVNX","KVBX","KICT","KLTX","KFFC","KYUX","KLGX","KHDC","KVWX"]
 #
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 call_signs_3list= \
@@ -176,7 +275,7 @@ call_signs_3list= \
 "RTX","PUX","RAX","UDX","RGX","RIW","FCX","JGX","DAX","LSX", \
 "MTX","SJT","NKX","MUX","HNX","JUA","SOX","ATX","SHV","FSD", \
 "ACG","HKI","HWA","OTX","SGF","CCX","LWX","TLH","TBW","TWX", \
-"EMX","INX","VNX","VBX","ICT","LTX","FFC","YUX","LGX","HDC"]
+"EMX","INX","VNX","VBX","ICT","LTX","FFC","YUX","LGX","HDC","VWX"]
 
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 dict_icao_3ltr= \
@@ -227,7 +326,7 @@ dict_icao_3ltr= \
         "TBW":"KTBW","TWX":"KTWX", \
         "EMX":"KEMX","INX":"KINX","VNX":"KVNX","VBX":"KVBX", \
         "ICT":"KICT","LTX":"KLTX","FFC":"KFFC","YUX":"KYUX", \
-        "LGX":"KLGX","HDC":"KHDC"}
+        "LGX":"KLGX","HDC":"KHDC","VWX":"KVWX"}
 
 #
 
@@ -281,7 +380,7 @@ dict_call_signs={"KABR":"Aberdeen_SD", "KABX":"Albuquerque_NM", "KAKQ":"Norfolk-
 "PAPD":"Fairbanks_AK", "PGUA":"Anderson-AFB-Guam", "PHKI":"South-Kauai-HI", \
 "PHKN":"Kamuela_HI", "PHMO":"Molokai-HI", "PHWA":"South-Shore-HI", "RKJK":"Kunsan-AB-Korea", \
 "RKSG":"Camp-Humphreys-Korea", "RODN":"Kadena_Okinawa", "TJUA":"San-Juan-Puerto-Rico", \
-"KLGX":"Langley-Hill_WA","KHDC":"Hammond_LA"}
+"KLGX":"Langley-Hill_WA","KHDC":"Hammond_LA","KVWX":"Evansville_IN"}
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 prod_sbn=["NCR","NVW","N0S","NVL","NST","APR","FTM","N1P","NTP","DPA", "NBU","N2U","N3U","DVL","EET", \
@@ -476,6 +575,11 @@ def printerr():
     print(PRTERR)
     #END OF Function
 
+def printwarn():
+    #
+    print(PRTWARN)
+    #END OF Function
+
 def printds():
     #
     print('--------------------------------------------')
@@ -587,11 +691,12 @@ else:
 #We are not otherwise using the metpy reader here, it is only to ensure that it is level 3. 
 try:
     read_l3file=Level3File(l3file)
-    print('This is a valid level 3')
+    printok()
+    print('This is a valid level III file')
     printok()
 except:
     printds()
-    print('ERROR: This is NOT a valid level 3 file!')
+    print('ERROR: This is NOT a valid level III file!')
     printds()
 
 #xxd -s 0 -l 218450 -c 30  KFDR_SDUS84_NSTFDR_202205050336 >> KFDR_SDUS84_NSTFDR_202205050336.hex
@@ -600,7 +705,7 @@ if useinputfile ==0:
     os.system('xxd -s 0 -l 218450 -c 30 '+datadirectry+l3file+' >> '+datadirectry+file)
     # making the PRODUCT DESCRIPTION BLOCK
     os.system('xxd -s 48 -l 120 -c 30 '+datadirectry+l3file+' >> '+datadirectry+pdbfile)
-    # making the tabular data for NST only
+    # making the tabular data for NCR only
     os.system('od -S 0 '+datadirectry+l3file+' | grep / >> '+datadirectry+odfile)
     printok()
 else:
@@ -609,7 +714,7 @@ else:
     os.system('xxd -s 0 -l 218450 -c 30 '+l3file+' >> '+thefile   )
     # making the PRODUCT DESCRIPTION BLOCK
     os.system('xxd -s 48 -l 120 -c 30 '+l3file+' >> '+pdbfile  )
-    # making the tabular data for NST only
+    # making the tabular data for NCR only
     os.system('od -S 0 '+l3file+' | grep / >> '+odfile   )
 
 # lines contains the entire file.
@@ -627,7 +732,8 @@ awips_header=awips_top[count-31:-1]
 
 ##### GET the Product Description block read in separately.
 
-# 
+#
+printds()
 print("This is the Product Description Block")
 printds()
 #
@@ -644,9 +750,10 @@ ff.close()
 for pli in plines:
     print(pli)
 
-# Now we will get the ascii data (this is for NST only)
+# Now we will get the ascii data (this is for NCR only)
 printds()
-print("This is for the ascii tabular data for NST only")
+print("This is for the ascii tabular data for NCR only")
+printds()
 
 myodfile=datadirectry+odfile
 if useinputfile ==1:
@@ -691,7 +798,9 @@ if "NCR" in PRODUCT_ID_hdr:
 else:
     printerr()
     print('This is NOT an NCR product. This code will only decode NCR data.')
+    print("Program ends now.")
     printerr()
+    exit()
 
 # Print plain description of Product ID
 if PRODUCT_ID_hdr in prod_sbn:
@@ -702,7 +811,11 @@ if PRODUCT_ID_hdr in prod_sbn:
     description_product=dict_product_sbn[PRODUCT_ID_hdr]
     print(description_product)
 else:
+    printerr()
     print('The product id is invalid.')
+    print("Program ends now.")
+    exit()
+    printerr()
 
 if RADAR_3_LETTER in call_signs_3list:
     fourletter=dict_icao_3ltr[RADAR_3_LETTER]
@@ -889,7 +1002,8 @@ real_seq_num=decode_halfword(SEQ_NUM)
 print('SEQ_NUM =                            '+SEQ_NUM)
 print('real_seq_num =                       '+str(real_seq_num))
 
-#-HALFWORD20: VOLUME SCAN Number
+#-HALFWORD20: VOLUME SCAN Number 
+
 VSN=PDBLINE0[60:64]
 real_vsn=decode_halfword(VSN)
 print('VSN =                                '+VSN)
@@ -1140,7 +1254,8 @@ print(dataliststm)
 
 printds()
 print('These are the lines we identifed:')
-print('STORM Positions')
+print('STORM Positions-')
+printds()
 for item in dataliststm:
     print('Line :'+str(item)+':  '+olines[item])
 print("Lines that contain "+end_txt)
@@ -1184,7 +1299,7 @@ for x in parnlist:
     stormdatalines.append(myitem[13:])
     index+=1
 printds()
-print('stormdatalines')
+print('stormdatalines-')
 printds()
 print(stormdatalines)
 
@@ -1256,12 +1371,20 @@ new_data="NEW"
 #T8  292/ 32 NONE NONE    0/  0/ 0.00    14  56  7.4  23.9  246/ 39
 #ID  AZ/RAN TVS  MDA  POSH/POH/MX SIZE VIL DBZM  HT  TOP  FCST MVMT
 
-
 #
 # We are decoding the various parts of the data- we get the storm id, the current azumith and range, and the TVS, MDS and Hail probabilites. All stored in lists. 
 #
 
 for data in stormdatalines:
+    # We need to make sure there is data in this variable data
+    # We may have injested a blank line!
+    # if there is no data, we will feed a 0 line
+    if data =='':
+        data='RR  000/ 00 NONE    0   000/000/ 0.00    00  00 00.0  00.0  000/ 00  \n'
+        printwarn()
+        print("WARNING: This line is a blank! We will load a zero line called RR and it will plot at the radar.")
+        printwarn()
+    #
     storm_id_str      = data[0:2]
     storm_id.append(storm_id_str)
     #
