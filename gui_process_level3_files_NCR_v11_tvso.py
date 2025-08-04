@@ -10,7 +10,7 @@
 #
 # NAME:
 # :::::::::::::::::::::::::::::::::::::::::::::::
-# gui_process_level3_files_NTV_v11_tvso.py
+# gui_process_level3_files_NCR_v11_tvso.py
 # :::::::::::::::::::::::::::::::::::::::::::::::
 #
 #  PROGRAM OVERVIEW:
@@ -43,43 +43,6 @@
 #  NOTE: THIS PROGRAM ASSUMES THE USE OF Python version 3.8.8+ for RHEL.
 #---------------------------------------------------------------
 #
-
-# Variables I will use in all functions:
-#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-#outputdir='/home/pmccrone/Pictures/tvso/11KTLX01D'
-#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-DADASH='-----------------------------------------------------'
-dadash='-----------------------------------------------------'
-dadashes='-----------------------------------------------------'
-#
-DAEQUALS='==--==--==--==--==--==--==--==--==--==--==--==--==--'
-#
-DADASHES='----------------------------------------------------'
-PRTERR="--ERROR--ERROR--ERROR--ERROR--ERROR--ERROR--ERROR--"
-PRTOK='--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--'
-
-
-def printbn():
-    #
-    print('\n')
-    #END OF Function
-
-def printok():
-    #
-    print(PRTOK)
-    #END OF Function
-
-def printerr():
-    #
-    print(PRTERR)
-    #END OF Function
-
-def printds():
-    #
-    print('--------------------------------------------')
-    #END
-
 
 try:
     import datetime
@@ -115,6 +78,7 @@ except:
     print("---------------------")
     exit() ## The program ends.
 #######################################################
+#######################################################
 
 def select_directory():
     root = tk.Tk()
@@ -138,12 +102,12 @@ def select_file():
     return(file_path)
     #END OF Function
 
-
-degtorad=np.pi/180.0
+#######################################################
 
 myargv=sys.argv
 print('-------- ')
 print(str(len(myargv)))
+
 
 #
 # Get the first argument from the command line.
@@ -154,11 +118,11 @@ if len(myargv) >=2:
 
     print('Read in the directory')
 else:
+
     inputdir='Not_defined'
 
-
 # . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-##### Add gui to select runrpg output directory
+##### Add gui to select NCR data directory
 
 inputdir=select_directory()
 
@@ -166,18 +130,54 @@ inputdir=select_directory()
 # . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 
 
+# Variables I will use in all functions:
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+#outputdir='/home/pmccrone/Pictures/tvso/11KTLX01D'
+#xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+degtorad=np.pi/180.0
+DADASH='-----------------------------------------------------'
+dadash='-----------------------------------------------------'
+dadashes='-----------------------------------------------------'
+#
+DAEQUALS='==--==--==--==--==--==--==--==--==--==--==--==--==--'
+#
+DADASHES='----------------------------------------------------'
+PRTERR="--ERROR--ERROR--ERROR--ERROR--ERROR--ERROR--ERROR--"
+PRTOK='--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--OK--'
+
 print('Input directory is:'+str(inputdir))
 
 fileexists=os.path.exists(inputdir)
 useinputfile=0
 
+
 if fileexists:
     print("The input directory "+str(inputdir)+" exists.")
     useinputfile=1
+#
 else:
     print("The input file "+str(inputdir)+" does not exist.")
     useinputfile=0
 
+def printbn():
+    #
+    print('\n')
+    #END OF Function
+
+def printok():
+    #
+    print(PRTOK)
+    #END OF Function
+
+def printerr():
+    #
+    print(PRTERR)
+    #END OF Function
+
+def printds():
+    #
+    print('--------------------------------------------')
+    #END
 
 ########
 # MAIN part of program
@@ -187,8 +187,8 @@ datadirectry='/home/pmccrone/test/'
 pythondir="/home/pmccrone/anaconda3/bin/python"
 
 for x in os.listdir(inputdir):
-    if 'NTV' in x:
-        command=pythondir+' '+datadirectry+'process_level3_NTV_v11_tvso_kml.py'+' '+inputdir+'/'+str(x)
+    if 'NCR' in x:
+        command=pythondir+' '+datadirectry+'process_level3_NCR_v11_tvso_kml.py'+' '+inputdir+'/'+str(x)
         #
         printds()
         print(command)
@@ -196,6 +196,10 @@ for x in os.listdir(inputdir):
         os.system(command)
 
 
+# END OF CODE 
+
+
+#/home/pmccrone/anaconda3/bin/python ./process_level3_NCR_v11_tvso_kml.py /import/frb_archive/pmccrone/level_3/2024a/2024_Sulphur_Tornado_27Apr_01b_KFWS/Sulphur_FWS_01b/KFWD_SDUS84_NCRFWS_202404280602
 
 
 
