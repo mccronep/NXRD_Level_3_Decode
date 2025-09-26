@@ -135,7 +135,7 @@ else:
 
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ALL_call_signs= \
-["PGUA","RKSG","RKJK","RODN","KABR","KENX","KABX","KFDR","KAMA","PAHG", \
+["PGUA","TOKC","RKJK","RODN","KABR","KENX","KABX","KFDR","KAMA","PAHG", \
 "KEWX","KBBX","PABC","KBLX","KBGM","KBMX","KBIS","KCBX","KBOX","KBRO", \
 "KBUF","KCXX","KFDX","KICX","KCLX","KRLX","KCYS","KLOT","KILN","KCLE", \
 "KCAE","KGWX","KCRP","KFWS","KDVN","KFTG","KDMX","KDTX","KDDC","KDOX", \
@@ -154,7 +154,7 @@ ALL_call_signs= \
 #
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 call_signs_3list= \
-["GUA","KSG","KJK","ODN","ABR","ENX","ABX","FDR","AMA","AHG", \
+["GUA","OKC","KJK","ODN","ABR","ENX","ABX","FDR","AMA","AHG", \
 "EWX","BBX","ABC","BLX","BGM","BMX","BIS","CBX","BOX","BRO", \
 "BUF","CXX","FDX","ICX","CLX","RLX","CYS","LOT","ILN","CLE", \
 "CAE","GWX","CRP","FWS","DVN","FTG","DMX","DTX","DDC","DOX", \
@@ -173,7 +173,7 @@ call_signs_3list= \
 
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 dict_icao_3ltr= \
-        {"GUA":"PGUA","KSG":"RKSG","KJK":"RKJK","ODN":"RODN", \
+        {"GUA":"PGUA","OKC":"TOKC","KJK":"RKJK","ODN":"RODN", \
         "ABR":"KABR","ENX":"KENX","ABX":"KABX","FDR":"KFDR", \
         "AMA":"KAMA","AHG":"PAHG", \
         "EWX":"KEWX","BBX":"KBBX","ABC":"PABC","BLX":"KBLX", \
@@ -273,7 +273,7 @@ dict_call_signs={"KABR":"Aberdeen_SD", "KABX":"Albuquerque_NM", "KAKQ":"Norfolk-
 "PAKC":"King-Salmon_AK", "PHKM":'Kamuela-Kohala-HI', \
 "PAPD":"Fairbanks_AK", "PGUA":"Anderson-AFB-Guam", "PHKI":"South-Kauai-HI", \
 "PHKN":"Kamuela_HI", "PHMO":"Molokai-HI", "PHWA":"South-Shore-HI", "RKJK":"Kunsan-AB-Korea", \
-"RKSG":"Camp-Humphreys-Korea", "RODN":"Kadena_Okinawa", "TJUA":"San-Juan-Puerto-Rico", \
+"TOKC":"Oklahoma-City-TDWR-OK", "RODN":"Kadena_Okinawa", "TJUA":"San-Juan-Puerto-Rico", \
 "KLGX":"Langley-Hill_WA","KHDC":"Hammond_LA","KVWX":"Evansville_IN"}
 #xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 

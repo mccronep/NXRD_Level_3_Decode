@@ -10,16 +10,16 @@
 #
 # NAME:
 # :::::::::::::::::::::::::::::::::::::::::::::::
-# process_level3_files_NMD_v11_tvso.py
+# process_level3_files_NTV_v11_tvso.py
 # :::::::::::::::::::::::::::::::::::::::::::::::
 #
 #  PROGRAM OVERVIEW:
 #       (0) The PYTHON CODE reads WSR88D L3 information from a file. 
 #       (1) The information is used to decode NEXRAD data for further post analysis.
 #
-# This will run the v11 program over all the files in a directory. It will only process NMD files.
+# This will run the v11 tvso program over all the files in a directory. It will only process NCR files.
 # This is the same as process_level3_NCR_v11_kml.py 
-# the diff is that it only plots Mesocyclones./
+# the diff is that it only plots TVS./
 #--------------------------------------------------------------------------------------------------
 # PARAMETER TABLE:
 #--------------------------------------------------------------------------------------------------
@@ -148,8 +148,8 @@ datadirectry='/home/pmccrone/test/'
 pythondir="/home/pmccrone/anaconda3/bin/python"
 
 for x in os.listdir(inputdir):
-    if 'NMD' in x:
-        command=pythondir+' '+datadirectry+'process_level3_NMD_v11_tvso_kml.py'+' '+inputdir+'/'+str(x)
+    if 'NTV' in x:
+        command=pythondir+' '+datadirectry+'process_level3_NTV_v11_tvso_kml.py'+' '+inputdir+'/'+str(x)
         #
         printds()
         print(command)

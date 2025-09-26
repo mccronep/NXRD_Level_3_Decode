@@ -18,7 +18,7 @@
 #       (1) The information is used to decode NEXRAD data for further post analysis.
 #
 # This is the same as process_level3_NCR_v11_kml.py 
-# the diff is that it only plots Mesocyclone detection algorithm output ./
+# the diff is that it only plots TVS./
 #--------------------------------------------------------------------------------------------------
 # PARAMETER TABLE:
 #--------------------------------------------------------------------------------------------------
